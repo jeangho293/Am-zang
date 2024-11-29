@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { DddService } from '../../../libs/ddd/ddd-service';
+import { DddService } from '@libs/ddd';
 
 @Service()
 export class UserService extends DddService {

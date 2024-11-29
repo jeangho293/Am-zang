@@ -1,6 +1,8 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { customAlphabet } from 'nanoid';
-import { DddAggregate } from '../../../libs/ddd';
+import { DddAggregate } from '@libs/ddd';
+
+export type LoginType = 'google' | 'kakao';
 
 type Creator = {
   email: string;
@@ -17,6 +19,9 @@ export class User extends DddAggregate {
 
   @Column()
   password!: string;
+
+  @Column()
+  type!: LoginType;
 
   constructor(args: Creator) {
     super();
