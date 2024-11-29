@@ -16,11 +16,13 @@
     "http-graceful-shutdown": "^3.1.13",
     "joi": "^17.13.3",
     "mysql2": "^3.11.5",
+    "nanoid": "^3.3.8",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.20",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

@@ -4,6 +4,7 @@ import * as gracefulShutdown from 'http-graceful-shutdown';
 import { dependencyInjectorHandler, uuidHandler } from '@middlewares';
 import { globalRouter } from './routes';
 import { initDatasource } from './databases';
+import { requestLoggerHandler } from './middlewares/request-logger.handler';
 
 (async () => {
   // NOTE: Mysql connect
@@ -13,6 +14,7 @@ import { initDatasource } from './databases';
 
   app.use(uuidHandler);
   app.use(dependencyInjectorHandler);
+  app.use(requestLoggerHandler);
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
