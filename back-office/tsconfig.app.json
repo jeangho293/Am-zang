@@ -25,7 +25,8 @@
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@libs": ["libs"],
-      "@screens": ["screens"]
+      "@screens": ["screens"],
+      "@models": ["models"]
     }
   },
   "include": ["src"]

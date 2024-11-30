@@ -1,5 +1,5 @@
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { DashboardScreen, GoogleSignInScreen } from '@screens';
+import { DashboardScreen, GoogleSignInCallbackScreen, GoogleSignInScreen } from '@screens';
 
 function AuthorizedRoute() {
   return <Outlet />;
@@ -18,6 +18,7 @@ function AppRouter() {
         </Route>
         <Route element={<UnAuthorizedRoute />}>
           <Route path="/sign-in" element={<GoogleSignInScreen />} />
+          <Route path="/auth/google" element={<GoogleSignInCallbackScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
