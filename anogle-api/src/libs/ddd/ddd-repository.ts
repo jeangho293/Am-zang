@@ -16,4 +16,12 @@ export abstract class DddRepository<T extends DddAggregate> {
     }
     return this.context.get(datasourceMap).default.manager;
   }
+
+  async save(entities: T[]) {
+    entities.forEach((entity) => {
+      entity.setTxId(this.context.txId);
+    });
+
+    await this.entityManager.save(entities);
+  }
 }

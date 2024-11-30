@@ -20,7 +20,7 @@ router.post('/admins/auth/google', async (req, res, next) => {
     const authService = context.get(AuthService);
 
     // 3. Get service result
-    const data = authService.signInWithGoogle({ ...body });
+    const data = await authService.signInWithGoogle({ ...body });
 
     // 4. Send response
     res.json({ data });

@@ -35,7 +35,7 @@ async function loadToken(query: () => Promise<{ accessToken: string }>) {
 }
 
 async function getSelf() {
-  return httpClient.get<UserModel>('/user/self');
+  return httpClient.get<UserModel>('/users/self');
 }
 
 export function AuthProvider(props: { initialUser?: UserModel; children: ReactNode }) {
@@ -59,7 +59,7 @@ export function AuthProvider(props: { initialUser?: UserModel; children: ReactNo
         setUser(user);
       },
     }),
-    []
+    [user]
   );
 
   // 7. effect hooks

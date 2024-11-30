@@ -1,12 +1,16 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { customAlphabet } from 'nanoid';
+import { createHash } from 'crypto';
+import { sign } from 'jsonwebtoken';
 import { DddAggregate } from '@libs/ddd';
+import { config } from '@configs';
 
 export type LoginType = 'google' | 'kakao';
 
 type Creator = {
   email: string;
   password: string;
+  type: LoginType;
 };
 
 @Entity()
@@ -26,12 +30,18 @@ export class User extends DddAggregate {
   constructor(args: Creator) {
     super();
     if (args) {
-      this.id = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)();
-      this.password = '1';
+      this.id = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10)();
+      this.email = args.email;
+      this.password = createHash('sha-256').update(args.password).digest('hex');
+      this.type = args.type;
     }
   }
 
   static of(args: Creator) {
     return new User(args);
+  }
+
+  getAccessToken() {
+    return sign({ id: this.id }, config.jwt.secret);
   }
 }

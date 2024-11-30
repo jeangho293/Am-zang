@@ -19,7 +19,8 @@
     "strictPropertyInitialization": true,
     "paths": {
       "@libs/*": ["libs/*"],
-      "@middlewares": ["middlewares"]
+      "@middlewares": ["middlewares"],
+      "@configs": ["configs"]
     }
   },
   "include": ["src"],

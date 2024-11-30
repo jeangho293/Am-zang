@@ -14,7 +14,5 @@ export const dependencyInjectorHandler = async (
     next();
   } catch (err) {
     next(err);
-  } finally {
-    context?.dispose();
   }
 };

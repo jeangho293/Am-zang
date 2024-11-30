@@ -1,17 +1,17 @@
-import { Column, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export abstract class DddAggregate {
   @Column()
   private createdBy!: string;
 
-  @Column()
+  @CreateDateColumn()
   private createdAt!: Date;
 
   @Column()
   private updatedBy!: string;
 
-  @Column()
+  @UpdateDateColumn()
   private updatedAt!: Date;
 
   setTxId(txId: string) {

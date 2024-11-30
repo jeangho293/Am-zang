@@ -17,6 +17,13 @@ export const httpClient = (() => {
     return config;
   });
 
+  instance.interceptors.response.use(
+    (res) => {
+      return res.data.data;
+    },
+    (err) => console.log(err)
+  );
+
   return {
     setAuthorization(accessToken: string) {
       authorization = accessToken;

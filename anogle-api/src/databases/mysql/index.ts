@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Container, Token } from 'typedi';
-import { config } from '../../configs';
+import { config } from '@configs';
 import entities from './entities';
 
 export const datasourceMap = new Token<Record<string, any>>('@datasource');

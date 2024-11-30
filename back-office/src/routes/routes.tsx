@@ -1,12 +1,33 @@
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { DashboardScreen, GoogleSignInCallbackScreen, GoogleSignInScreen } from '@screens';
+import { useUser } from '@libs';
 
 function AuthorizedRoute() {
-  return <Outlet />;
+  // 1. destructure props
+  // 2. lib hooks
+  const [user] = useUser();
+
+  // 3. state hooks
+  // 4. query hooks
+  // 5. form hooks
+  // 6. calculate values
+  // 7. effect hooks
+  // 8. handlers
+  return !user ? <Navigate to="/sign-in" /> : <Outlet />;
 }
 
 function UnAuthorizedRoute() {
-  return <Outlet />;
+  // 1. destructure props
+  // 2. lib hooks
+  const [user] = useUser();
+
+  // 3. state hooks
+  // 4. query hooks
+  // 5. form hooks
+  // 6. calculate values
+  // 7. effect hooks
+  // 8. handlers
+  return user ? <Navigate to="/" /> : <Outlet />;
 }
 
 function AppRouter() {
