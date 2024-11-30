@@ -1,3 +1,4 @@
+import googleRouter from './google';
 import tokenRouter from './token';
 
-export default [...tokenRouter];
+export default [...googleRouter, ...tokenRouter];

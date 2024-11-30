@@ -8,7 +8,7 @@ router.post('/admins/auth/token', async (req, res, next) => {
   try {
     const { context } = res.locals as { context: DddContext };
     const authService = context.get(AuthService);
-
+    console.log('hi');
     res.json({});
   } catch (err) {
     next(err);
