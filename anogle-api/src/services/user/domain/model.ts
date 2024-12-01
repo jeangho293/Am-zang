@@ -4,6 +4,7 @@ import { createHash } from 'crypto';
 import { sign } from 'jsonwebtoken';
 import { DddAggregate } from '@libs/ddd';
 import { config } from '@configs';
+import { CreatedUserEvent } from './events';
 
 export type LoginType = 'google' | 'kakao';
 
@@ -34,6 +35,8 @@ export class User extends DddAggregate {
       this.email = args.email;
       this.password = createHash('sha-256').update(args.password).digest('hex');
       this.type = args.type;
+
+      this.publishEvent(new CreatedUserEvent({ userId: this.id }));
     }
   }
 

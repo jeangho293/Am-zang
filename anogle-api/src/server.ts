@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import { globalRouter } from './routes';
 import { initDatasource } from './databases';
 import { requestLoggerHandler } from './middlewares/request-logger.handler';
+import { eventStore } from './libs/event-store';
 
 (async () => {
   // NOTE: Mysql connect
@@ -22,7 +23,8 @@ import { requestLoggerHandler } from './middlewares/request-logger.handler';
   app.use(cors());
   app.use(globalRouter);
 
-  const server = app.listen(3000, () => {
+  const server = app.listen(3000, async () => {
+    await eventStore.start();
     console.log(`Server is running on 3000. 😏`);
   });
 

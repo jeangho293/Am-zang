@@ -1,7 +1,10 @@
 import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
+import { DddEvent } from './ddd-event';
 
 @Entity()
 export abstract class DddAggregate {
+  private events: DddEvent[] = [];
+
   @Column()
   private createdBy!: string;
 
@@ -19,5 +22,13 @@ export abstract class DddAggregate {
       this.createdBy = txId;
     }
     this.updatedBy = txId;
+  }
+
+  public publishEvent(event: DddEvent) {
+    this.events.push(event);
+  }
+
+  public getPublishedEvents() {
+    return this.events;
   }
 }

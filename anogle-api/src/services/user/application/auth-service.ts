@@ -1,9 +1,10 @@
 import { Inject, Service } from 'typedi';
-import { DddService } from '@libs/ddd';
+import { DddService, EventHandler, Transactional } from '@libs/ddd';
 import { GoogleClient } from '@libs/google';
 import { UserRepository } from '../infrastructure/repository';
 import { FilteredUserSpec } from '../domain/specs';
 import { User } from '../domain/model';
+import { CreatedUserEvent } from '../domain/events';
 
 @Service()
 export class AuthService extends DddService {
@@ -14,6 +15,7 @@ export class AuthService extends DddService {
     super();
   }
 
+  @Transactional()
   async signInWithGoogle({ accessToken }: { accessToken: string }) {
     const { id, email } = await this.googleClient.google.signIn(accessToken);
 
@@ -27,5 +29,12 @@ export class AuthService extends DddService {
     }
 
     return { accessToken: user.getAccessToken() };
+  }
+
+  @EventHandler(CreatedUserEvent)
+  @Transactional()
+  async createdUserEvent(event: CreatedUserEvent) {
+    const { userId } = event;
+    return this;
   }
 }
