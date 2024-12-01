@@ -14,6 +14,10 @@ export class UserService extends DddService {
   }
 
   async retrieve({ id, email }: { id?: string; email?: string }) {
-    return this.userRepository.satisfyElementFrom(new FilteredUserSpec({ id, email }));
+    const [user] = await this.userRepository.satisfyElementFrom(
+      new FilteredUserSpec({ id, email })
+    );
+
+    return user;
   }
 }

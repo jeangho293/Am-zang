@@ -7,8 +7,6 @@ import { eventStore } from '@libs/event-store';
 import { globalRouter } from './routes';
 import { initDatasource } from './databases';
 
-import './services/role/application/service';
-
 (async () => {
   // NOTE: Mysql connect
   await initDatasource();

@@ -4,6 +4,7 @@ import { verify } from 'jsonwebtoken';
 import { config } from '@configs';
 import type { DddContext } from '../libs/ddd';
 import { UserService } from '../services/user/application/service';
+import { RoleService } from '../services/role/application/service';
 
 export const authHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,10 +17,15 @@ export const authHandler = async (req: Request, res: Response, next: NextFunctio
 
     const { context } = res.locals as { context: DddContext };
     const userService = context.get(UserService);
+    const roleService = context.get(RoleService);
 
-    const [user] = await userService.retrieve({ id });
+    const [user, role] = await Promise.all([
+      userService.retrieve({ id }),
+      roleService.retrieve({ userId: id }),
+    ]);
 
     res.locals.user = user;
+    res.locals.role = role;
 
     next();
   } catch (err) {
