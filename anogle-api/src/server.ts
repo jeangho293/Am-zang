@@ -1,7 +1,12 @@
 import 'reflect-metadata';
 import * as express from 'express';
 import * as gracefulShutdown from 'http-graceful-shutdown';
-import { dependencyInjectorHandler, uuidHandler, requestLoggerHandler } from '@middlewares';
+import {
+  dependencyInjectorHandler,
+  uuidHandler,
+  requestLoggerHandler,
+  errorLoggerHandler,
+} from '@middlewares';
 import * as cors from 'cors';
 import { eventStore } from '@libs/event-store';
 import { globalRouter } from './routes';
@@ -18,9 +23,10 @@ import { initDatasource } from './databases';
   app.use(requestLoggerHandler);
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-
   app.use(cors());
+
   app.use(globalRouter);
+  app.use(errorLoggerHandler);
 
   const server = app.listen(3000, async () => {
     await eventStore.start();
