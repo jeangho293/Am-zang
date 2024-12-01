@@ -34,6 +34,10 @@ async function loadToken(query: () => Promise<{ accessToken: string }>) {
   return !!accessToken;
 }
 
+async function unLoadToken() {
+  localStorage.removeItem('token');
+}
+
 async function getSelf() {
   return httpClient.get<UserModel>('/users/self');
 }
@@ -96,10 +100,25 @@ export function useGoogleSignIn(): [(accessToken: string) => void, { loading: bo
         loadToken(() => authClient.post('/auth/google', { accessToken }))
           .then(async () => context.setUser(await getSelf()))
           .catch((err) => console.log(err))
-          .finally(() => setLoading(true));
+          .finally(() => setLoading(false));
       },
       [context]
     ),
+    { loading },
+  ];
+}
+
+export function useSignOut(): [() => void, { loading: boolean }] {
+  const context = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
+  return [
+    useCallback(() => {
+      setLoading(true);
+      unLoadToken()
+        .then(() => context.setUser())
+        .finally(() => setLoading(false));
+    }, [context]),
     { loading },
   ];
 }
