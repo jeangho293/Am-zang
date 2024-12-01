@@ -24,6 +24,7 @@ class EventStore {
                 const context = DddContext.of(event.txId);
                 const service = context.get(serviceClass);
                 context.set(actorIdToken, event.actorId);
+
                 try {
                   await service[serviceMethod].call(service, event);
                 } catch (err: any) {

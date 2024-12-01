@@ -1,12 +1,13 @@
 import 'reflect-metadata';
 import * as express from 'express';
 import * as gracefulShutdown from 'http-graceful-shutdown';
-import { dependencyInjectorHandler, uuidHandler } from '@middlewares';
+import { dependencyInjectorHandler, uuidHandler, requestLoggerHandler } from '@middlewares';
 import * as cors from 'cors';
+import { eventStore } from '@libs/event-store';
 import { globalRouter } from './routes';
 import { initDatasource } from './databases';
-import { requestLoggerHandler } from './middlewares/request-logger.handler';
-import { eventStore } from './libs/event-store';
+
+import './services/role/application/service';
 
 (async () => {
   // NOTE: Mysql connect

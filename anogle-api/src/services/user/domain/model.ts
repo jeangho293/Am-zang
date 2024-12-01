@@ -11,6 +11,7 @@ export type LoginType = 'google' | 'kakao';
 type Creator = {
   email: string;
   password: string;
+  role: 'admin' | 'general';
   type: LoginType;
 };
 
@@ -26,6 +27,9 @@ export class User extends DddAggregate {
   password!: string;
 
   @Column()
+  role!: 'admin' | 'general';
+
+  @Column()
   type!: LoginType;
 
   constructor(args: Creator) {
@@ -34,9 +38,10 @@ export class User extends DddAggregate {
       this.id = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10)();
       this.email = args.email;
       this.password = createHash('sha-256').update(args.password).digest('hex');
+      this.role = args.role;
       this.type = args.type;
 
-      this.publishEvent(new CreatedUserEvent({ userId: this.id }));
+      this.publishEvent(new CreatedUserEvent({ userId: this.id, role: this.role }));
     }
   }
 
