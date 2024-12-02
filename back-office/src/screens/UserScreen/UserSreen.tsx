@@ -1,8 +1,9 @@
 import { format, useQuery } from '@libs';
 import { userRepository } from '@repositories';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import { Stack, TextField } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useMemo, useState } from 'react';
+import { ListViewHeader } from '../../components';
 
 function UserScreen() {
   // 1. destructure props
@@ -54,16 +55,14 @@ function UserScreen() {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Stack>
-      <Stack>
-        <TextField
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              setSearch((event.target as HTMLInputElement).value);
-            }
-          }}
-        />
-      </Stack>
+    <Stack spacing={4}>
+      <ListViewHeader
+        title="User"
+        searchProps={{
+          placeholder: 'Email',
+          onChange: (value: string) => setSearch(value),
+        }}
+      />
       <DataGrid loading={loading} disableRowSelectionOnClick rows={rows} columns={columns} />
     </Stack>
   );

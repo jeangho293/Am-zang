@@ -13,5 +13,27 @@ export const theme = createTheme({
         disableRipple: true,
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        fullWidth: true,
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          paddingLeft: '8px',
+        },
+        input: {
+          padding: '8px',
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+        },
+      },
+    },
   },
 });
