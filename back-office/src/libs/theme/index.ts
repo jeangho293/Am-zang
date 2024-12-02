@@ -5,4 +5,13 @@ export const theme = createTheme({
   typography: {
     fontFamily: '"Poppins", sans-serif;',
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        disableElevation: true,
+        disableRipple: true,
+      },
+    },
+  },
 });

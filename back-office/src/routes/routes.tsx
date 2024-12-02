@@ -1,6 +1,8 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { DashboardScreen, GoogleSignInCallbackScreen, GoogleSignInScreen } from '@screens';
 import { useUser } from '@libs';
+import { Header } from '@components';
+import { Stack } from '@mui/material';
 
 function AuthorizedRoute() {
   // 1. destructure props
@@ -13,7 +15,16 @@ function AuthorizedRoute() {
   // 6. calculate values
   // 7. effect hooks
   // 8. handlers
-  return !user ? <Navigate to="/sign-in" /> : <Outlet />;
+  return !user ? (
+    <Navigate to="/sign-in" />
+  ) : (
+    <Stack css={{ height: '100%' }}>
+      <Header />
+      <Stack css={{ padding: '16px' }}>
+        <Outlet />
+      </Stack>
+    </Stack>
+  );
 }
 
 function UnAuthorizedRoute() {
@@ -35,7 +46,9 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<AuthorizedRoute />}>
-          <Route path="/" element={<DashboardScreen />} />
+          <Route index element={<Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={<DashboardScreen />} />
+          <Route path="/users" element={<div>users</div>} />
         </Route>
         <Route element={<UnAuthorizedRoute />}>
           <Route path="/sign-in" element={<GoogleSignInScreen />} />
