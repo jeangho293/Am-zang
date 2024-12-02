@@ -21,7 +21,7 @@ export const httpClient = (() => {
     (res) => {
       return res.data.data;
     },
-    (err) => console.log(err)
+    (err) => Promise.reject(err)
   );
 
   return {
@@ -31,8 +31,14 @@ export const httpClient = (() => {
     async post<T>(url: string, data: Record<string, any>): Promise<T> {
       return instance.post(url, data);
     },
-    async get<T>(url: string): Promise<T> {
-      return instance.get(url);
+    async get<T>(
+      url: string,
+      options?: {
+        params?: Record<string, any>;
+        paramsSerializer?: (param: Record<string, any>) => any;
+      }
+    ): Promise<T> {
+      return instance.get(url, options);
     },
   };
 })();
