@@ -11,7 +11,6 @@ export abstract class DddAggregate<T> {
   private createdBy!: string;
 
   @CreateDateColumn()
-  @Exclude()
   private createdAt!: Date;
 
   @Column()
@@ -19,7 +18,6 @@ export abstract class DddAggregate<T> {
   private updatedBy!: string;
 
   @UpdateDateColumn()
-  @Exclude()
   private updatedAt!: Date;
 
   setTxId(txId: string) {
