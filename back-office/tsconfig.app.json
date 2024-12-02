@@ -28,7 +28,8 @@
       "@screens": ["screens"],
       "@models": ["models"],
       "@components": ["components"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@repositories": ["repositories"]
     }
   },
   "include": ["src"]

@@ -1,5 +1,10 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { DashboardScreen, GoogleSignInCallbackScreen, GoogleSignInScreen } from '@screens';
+import {
+  DashboardScreen,
+  GoogleSignInCallbackScreen,
+  GoogleSignInScreen,
+  UserScreen,
+} from '@screens';
 import { useUser } from '@libs';
 import { Header } from '@components';
 import { Stack } from '@mui/material';
@@ -48,7 +53,7 @@ function AppRouter() {
         <Route element={<AuthorizedRoute />}>
           <Route index element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardScreen />} />
-          <Route path="/users" element={<div>users</div>} />
+          <Route path="/users" element={<UserScreen />} />
         </Route>
         <Route element={<UnAuthorizedRoute />}>
           <Route path="/sign-in" element={<GoogleSignInScreen />} />

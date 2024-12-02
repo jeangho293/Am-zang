@@ -10,7 +10,8 @@ export class UserService extends DddService {
   }
 
   async list() {
-    return this;
+    const users = await this.userRepository.satisfyElementFrom(new FilteredUserSpec({}));
+    return users.map((user) => user.toInstance());
   }
 
   async retrieve({ id, email }: { id?: string; email?: string }) {
