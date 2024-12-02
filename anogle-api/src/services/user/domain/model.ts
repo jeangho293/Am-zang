@@ -4,6 +4,7 @@ import { createHash } from 'crypto';
 import { sign } from 'jsonwebtoken';
 import { DddAggregate } from '@libs/ddd';
 import { config } from '@configs';
+import { Exclude } from 'class-transformer';
 import { CreatedUserEvent } from './events';
 
 export type LoginType = 'google' | 'kakao';
@@ -16,7 +17,7 @@ type Creator = {
 };
 
 @Entity()
-export class User extends DddAggregate {
+export class User extends DddAggregate<User> {
   @PrimaryColumn()
   id!: string;
 
@@ -24,6 +25,7 @@ export class User extends DddAggregate {
   email!: string;
 
   @Column()
+  @Exclude()
   password!: string;
 
   @Column()

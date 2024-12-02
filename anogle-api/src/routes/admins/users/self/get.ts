@@ -12,7 +12,7 @@ router.get('/admins/users/self', authHandler, async (req, res, next) => {
     // 2. Get container service
     // 3. Get service result
     // 4. Send response
-    res.json({ data: user });
+    res.json({ data: user.toInstance() });
   } catch (err) {
     next(err);
   }

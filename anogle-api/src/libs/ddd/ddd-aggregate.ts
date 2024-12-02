@@ -1,20 +1,25 @@
 import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
+import { Exclude, plainToInstance } from 'class-transformer';
 import { DddEvent } from './ddd-event';
 
 @Entity()
-export abstract class DddAggregate {
+export abstract class DddAggregate<T> {
   private events: DddEvent[] = [];
 
   @Column()
+  @Exclude()
   private createdBy!: string;
 
   @CreateDateColumn()
+  @Exclude()
   private createdAt!: Date;
 
   @Column()
+  @Exclude()
   private updatedBy!: string;
 
   @UpdateDateColumn()
+  @Exclude()
   private updatedAt!: Date;
 
   setTxId(txId: string) {
@@ -30,5 +35,9 @@ export abstract class DddAggregate {
 
   public getPublishedEvents() {
     return this.events;
+  }
+
+  public toInstance() {
+    return plainToInstance(this.constructor as new () => T, this, {});
   }
 }

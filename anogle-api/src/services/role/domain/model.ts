@@ -9,7 +9,7 @@ type Creator = {
 };
 
 @Entity()
-export class Role extends DddAggregate {
+export class Role extends DddAggregate<Role> {
   @PrimaryGeneratedColumn()
   id!: number;
 
