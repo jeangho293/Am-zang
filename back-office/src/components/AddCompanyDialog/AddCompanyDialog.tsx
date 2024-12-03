@@ -3,16 +3,25 @@ import { DialogTitleGroup } from '../DialogTitleGroup';
 import CompanyIcon from '@assets/company-icon.svg?react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@libs';
-import { companyRepository } from '../../repositories';
+import { companyRepository } from '@repositories';
+import { useSnackbar } from 'notistack';
 
 function AddCompanyDialog(props: { onClose: () => void }) {
   // 1. destructure props
   const { onClose } = props;
 
   // 2. lib hooks
+  const { enqueueSnackbar } = useSnackbar();
+
   // 3. state hooks
   // 4. query hooks
-  const [add] = useMutation(companyRepository.add);
+  const [add] = useMutation(companyRepository.add, {
+    onSuccess: () => {
+      enqueueSnackbar('Success!', { variant: 'success' });
+      onClose();
+    },
+    onError: (err) => enqueueSnackbar(err.message, { variant: 'error' }),
+  });
 
   // 5. form hooks
   const { register, handleSubmit } = useForm({

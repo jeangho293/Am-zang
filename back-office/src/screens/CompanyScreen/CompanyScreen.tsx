@@ -22,7 +22,13 @@ function CompanyScreen() {
   // 6. calculate values
   const rows = companies || [];
   const columns = useMemo<GridColDef<(typeof rows)[number]>[]>(() => {
-    return [{ field: 'name' }];
+    return [
+      { field: 'name', headerName: 'Name' },
+      { field: 'email', headerName: 'Email' },
+      { field: 'address', headerName: 'Address' },
+      { field: 'phoneNumber', headerName: 'Phone Number' },
+      { field: 'createdAt', headerName: 'Created on', flex: 1 },
+    ];
   }, []);
 
   // 7. effect hooks
@@ -43,7 +49,15 @@ function CompanyScreen() {
           ),
         }}
       />
-      <DataGrid rows={rows} columns={columns} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'createdAt', sort: 'desc' }],
+          },
+        }}
+      />
     </Stack>
   );
 }
