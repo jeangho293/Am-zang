@@ -1,7 +1,7 @@
 import { useQuery } from '@libs';
 import { companyRepository } from '@repositories';
 import { useMemo, useState } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRow } from '@mui/x-data-grid';
 import { Stack, Button } from '@mui/material';
 import { AddCompanyDialog, DialogButton, ListViewHeader } from '@components';
 
@@ -10,6 +10,7 @@ function CompanyScreen() {
   // 2. lib hooks
   // 3. state hooks
   const [search, setSearch] = useState<string>();
+  const [expanded, setExpanded] = useState<number | null>(null);
 
   // 4. query hooks
   const { data: companies } = useQuery(companyRepository.list, {
@@ -33,6 +34,10 @@ function CompanyScreen() {
 
   // 7. effect hooks
   // 8. handlers
+  const handleRowClick = (id: number) => {
+    setExpanded((prev) => (prev === id ? null : id));
+  };
+
   return (
     <Stack>
       <ListViewHeader
@@ -52,6 +57,55 @@ function CompanyScreen() {
       <DataGrid
         rows={rows}
         columns={columns}
+        onRowClick={(row) => handleRowClick(row.id as number)}
+        slots={{
+          row: (props) => {
+            const isExpanded = props.rowId === expanded;
+            return (
+              <>
+                <GridRow
+                  {...props}
+                  visibleColumns={[props.visibleColumns[0]]}
+                  isFirstVisible={true}
+                  css={{
+                    ':hover': {
+                      cursor: 'pointer',
+                    },
+                  }}
+                />
+                {isExpanded && (
+                  <Stack direction="row">
+                    {props.visibleColumns.map((column, index) => {
+                      console.log(column);
+                      return (
+                        <Stack
+                          key={column.field}
+                          css={{
+                            width: column.width,
+                            height: props.rowHeight,
+                            justifyContent: 'center',
+                            flex: column.flex,
+                          }}
+                        >
+                          <span
+                            css={{
+                              padding: '0 10px',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {index !== 0 ? props.row[column.field] : ''}
+                          </span>
+                        </Stack>
+                      );
+                    })}
+                  </Stack>
+                )}
+              </>
+            );
+          },
+        }}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],
