@@ -1,9 +1,10 @@
 import { useQuery } from '@libs';
 import { companyRepository } from '@repositories';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, Fragment } from 'react';
 import { DataGrid, GridColDef, GridRow } from '@mui/x-data-grid';
 import { Stack, Button } from '@mui/material';
 import { AddCompanyDialog, DialogButton, ListViewHeader } from '@components';
+import { Gym } from '@models';
 
 function CompanyScreen() {
   // 1. destructure props
@@ -24,11 +25,23 @@ function CompanyScreen() {
   const rows = companies || [];
   const columns = useMemo<GridColDef<(typeof rows)[number]>[]>(() => {
     return [
-      { field: 'name', headerName: 'Name' },
-      { field: 'email', headerName: 'Email' },
-      { field: 'address', headerName: 'Address' },
-      { field: 'phoneNumber', headerName: 'Phone Number' },
-      { field: 'createdAt', headerName: 'Created on', flex: 1 },
+      {
+        field: 'name',
+        headerName: 'Name',
+        width: 180,
+        renderCell: ({ value, row }) => (
+          <span>
+            {value} ({row.gyms.length})
+          </span>
+        ),
+      },
+      { field: 'branchOffice', headerName: 'Spot', width: 120 },
+      { field: 'address', headerName: 'Address', width: 240 },
+      {
+        field: 'createdOn',
+        headerName: 'Created on',
+        flex: 1,
+      },
     ];
   }, []);
 
@@ -39,7 +52,7 @@ function CompanyScreen() {
   };
 
   return (
-    <Stack>
+    <Stack css={{ height: '100%' }}>
       <ListViewHeader
         title="Company"
         searchProps={{
@@ -48,70 +61,113 @@ function CompanyScreen() {
         }}
         buttonProps={{
           addButton: (
-            <DialogButton render={({ onOpen }) => <Button onClick={onOpen}>hi</Button>}>
+            <DialogButton render={({ onOpen }) => <Button onClick={onOpen}>ADD</Button>}>
               {({ onClose }) => <AddCompanyDialog onClose={onClose} />}
             </DialogButton>
           ),
         }}
       />
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        onRowClick={(row) => handleRowClick(row.id as number)}
-        slots={{
-          row: (props) => {
-            const isExpanded = props.rowId === expanded;
-            return (
-              <>
-                <GridRow
-                  {...props}
-                  visibleColumns={[props.visibleColumns[0]]}
-                  isFirstVisible={true}
-                  css={{
-                    ':hover': {
-                      cursor: 'pointer',
-                    },
-                  }}
-                />
-                {isExpanded && (
-                  <Stack direction="row">
-                    {props.visibleColumns.map((column, index) => {
-                      console.log(column);
-                      return (
-                        <Stack
-                          key={column.field}
+      <Stack css={{ height: '720px' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          onRowClick={(row) => handleRowClick(row.id as number)}
+          slots={{
+            row: (props) => {
+              const gyms = props.row.gyms as Gym[];
+              const isExpanded = props.rowId === expanded;
+              return (
+                <>
+                  <GridRow
+                    {...props}
+                    visibleColumns={[props.visibleColumns[0]]}
+                    isFirstVisible={true}
+                    css={{
+                      ':hover': {
+                        cursor: 'pointer',
+                      },
+                    }}
+                  />
+                  {isExpanded &&
+                    (gyms.length ? (
+                      gyms.map((gym, index) => {
+                        return (
+                          <Fragment key={index}>
+                            <Stack direction="row">
+                              {props.visibleColumns.map((column, index) => {
+                                return (
+                                  <Stack
+                                    key={index}
+                                    css={{
+                                      width: column.width,
+                                      height: props.rowHeight,
+                                      justifyContent: 'center',
+                                      flex: column.flex,
+                                    }}
+                                  >
+                                    {
+                                      <span
+                                        css={{
+                                          padding: '0 10px',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          textAlign: column.align,
+                                        }}
+                                      >
+                                        {index !== 0 && gym[column.field as keyof Gym]}
+                                      </span>
+                                    }
+                                  </Stack>
+                                );
+                              })}
+                            </Stack>
+                            {index === gyms.length - 1 && (
+                              <Stack css={{ justifyContent: 'center' }}>
+                                <Button
+                                  css={{
+                                    height: '28px',
+                                    width: '28px',
+                                    margin: '16px',
+                                  }}
+                                >
+                                  +
+                                </Button>
+                              </Stack>
+                            )}
+                          </Fragment>
+                        );
+                      })
+                    ) : (
+                      <Stack css={{ justifyContent: 'center' }}>
+                        <Button
                           css={{
-                            width: column.width,
-                            height: props.rowHeight,
-                            justifyContent: 'center',
-                            flex: column.flex,
+                            height: '28px',
+                            width: '28px',
+                            margin: '16px',
                           }}
                         >
-                          <span
-                            css={{
-                              padding: '0 10px',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {index !== 0 ? props.row[column.field] : ''}
-                          </span>
-                        </Stack>
-                      );
-                    })}
-                  </Stack>
-                )}
-              </>
-            );
-          },
-        }}
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'createdAt', sort: 'desc' }],
-          },
-        }}
-      />
+                          +
+                        </Button>
+                      </Stack>
+                    ))}
+                </>
+              );
+            },
+          }}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'name', sort: 'desc' }],
+            },
+          }}
+          css={{
+            '& .MuiDataGrid-filler': {
+              '--rowBorderColor': '#FFFFFF !important',
+            },
+          }}
+          rowHeight={48}
+        />
+      </Stack>
     </Stack>
   );
 }

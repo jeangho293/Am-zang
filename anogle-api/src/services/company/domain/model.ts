@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
+import { Gym } from '../../gym/domain/model';
 
-type Creator = {
+type CompanyCreator = {
   name: string;
   email: string;
   address: string;
@@ -25,7 +26,10 @@ export class Company extends DddAggregate<Company> {
   @Column()
   phoneNumber!: string;
 
-  constructor(args: Creator) {
+  @OneToMany(() => Gym, (gym) => gym.company)
+  gyms!: Gym[];
+
+  constructor(args: CompanyCreator) {
     super();
     if (args) {
       this.name = args.name;
@@ -33,5 +37,9 @@ export class Company extends DddAggregate<Company> {
       this.address = args.address;
       this.phoneNumber = args.phoneNumber;
     }
+  }
+
+  addGym(gym: Gym) {
+    this.gyms.push(gym);
   }
 }

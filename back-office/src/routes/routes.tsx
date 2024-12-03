@@ -26,7 +26,7 @@ function AuthorizedRoute() {
   ) : (
     <Stack css={{ height: '100%' }}>
       <Header />
-      <Stack css={{ padding: '16px' }}>
+      <Stack css={{ padding: '16px', height: '100%' }}>
         <Outlet />
       </Stack>
     </Stack>

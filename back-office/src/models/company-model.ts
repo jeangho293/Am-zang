@@ -1,3 +1,5 @@
+import type { Gym } from './gym-model';
+
 export class CompanyModel {
   id!: number;
 
@@ -7,5 +9,7 @@ export class CompanyModel {
 
   email!: string;
 
-  phoneNumbeR!: string;
+  phoneNumber!: string;
+
+  gyms!: Gym[];
 }

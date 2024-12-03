@@ -36,6 +36,9 @@ export class CompanyRepository extends DddRepository<Company> {
         address,
         phoneNumber,
       },
+      relations: {
+        gyms: true,
+      },
     });
   }
 
