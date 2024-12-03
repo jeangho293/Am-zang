@@ -30,6 +30,7 @@ export class CreatableCompanySpec extends CompanySpec {
   }
 
   async satisfyElementFrom(companyRepository: CompanyRepository): Promise<Company[]> {
+    this.isAdmin();
     const [company] = await companyRepository.find({ name: this.name });
 
     if (company) {

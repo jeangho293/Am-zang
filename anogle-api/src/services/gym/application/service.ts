@@ -1,9 +1,10 @@
 import { Inject, Service } from 'typedi';
-import { DddService, Transactional } from '../../../libs/ddd';
+import { DddService, Transactional } from '@libs/ddd';
 import { GymRepository } from '../infrastructure/repository';
 import { CompanyRepository } from '../../company/infrastructure/repository';
 import { FilteredCompanySpec } from '../../company/domain/specs';
-import { Gym } from '../domain/model';
+import { CreatableGymSpec } from '../domain/specs';
+import type { Role } from '../../role/domain/model';
 
 @Service()
 export class GymService extends DddService {
@@ -15,24 +16,31 @@ export class GymService extends DddService {
   }
 
   @Transactional()
-  async create({
-    branchOffice,
-    address,
-    createdOn,
-    companyId,
-  }: {
-    branchOffice: string;
-    address: string;
-    createdOn: string;
-    companyId: number;
-  }) {
+  async create(
+    { role }: { role: Role },
+    {
+      branchOffice,
+      address,
+      createdOn,
+      companyId,
+    }: {
+      branchOffice: string;
+      address: string;
+      createdOn: string;
+      companyId: number;
+    }
+  ) {
     const [company] = await this.companyRepository.satisfyElementFrom(
       new FilteredCompanySpec({}, { id: companyId })
     );
 
     if (company) {
-      const gym = new Gym({ branchOffice, address, createdOn, companyId });
+      const [gym] = await this.gymRepository.satisfyElementFrom(
+        new CreatableGymSpec({ role }, { branchOffice, address, createdOn })
+      );
       await this.gymRepository.save([gym]);
+      company.addGym(gym);
+      await this.companyRepository.save([company]);
     }
   }
 }

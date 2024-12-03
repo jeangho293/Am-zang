@@ -20,6 +20,7 @@ function AddGymDialog(props: { companyId: number; onClose: () => void }) {
       enqueueSnackbar('Success!', { variant: 'success' });
       onClose();
     },
+    onError: (err) => enqueueSnackbar(err.message, { variant: 'error' }),
   });
 
   // 5. form hooks
@@ -28,6 +29,7 @@ function AddGymDialog(props: { companyId: number; onClose: () => void }) {
     defaultValues: {
       branchOffice: '',
       address: '',
+      // TODO: calendar 기능 필요
       createdOn: '2024-12-01',
     },
   });

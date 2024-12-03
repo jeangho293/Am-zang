@@ -20,4 +20,5 @@ export const gymRepository = {
   },
 };
 
-queryKeyMap.set(gymRepository.add, ['Gym']);
+// Gym은 Company의 ManyToOne관계이므로 queryKey를 company로 했다.
+queryKeyMap.set(gymRepository.add, ['Company']);

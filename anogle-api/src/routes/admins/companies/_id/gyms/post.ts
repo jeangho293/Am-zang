@@ -2,6 +2,8 @@ import { Router } from 'express';
 import type { DddContext } from '@libs/ddd';
 import * as joi from 'joi';
 import { GymService } from '../../../../../services/gym/application/service';
+import type { Role } from '../../../../../services/role/domain/model';
+import { authHandler } from '../../../../../middlewares';
 
 const router = Router();
 const paramsSchema = joi
@@ -17,7 +19,7 @@ const bodySchema = joi
   })
   .required();
 
-router.post('/admins/companies/:companyId/gyms', async (req, res, next) => {
+router.post('/admins/companies/:companyId/gyms', authHandler, async (req, res, next) => {
   try {
     // 1. Get body, params, querystring
     const [{ companyId }, body] = await Promise.all([
@@ -26,11 +28,11 @@ router.post('/admins/companies/:companyId/gyms', async (req, res, next) => {
     ]);
 
     // 2. Get container service
-    const { context } = res.locals as { context: DddContext };
+    const { context, role } = res.locals as { context: DddContext; role: Role };
     const gymService = context.get(GymService);
 
     // 3. Get service result
-    await gymService.create({ companyId: Number(companyId), ...body });
+    await gymService.create({ role }, { companyId: Number(companyId), ...body });
 
     // 4. Send response
     res.status(201);

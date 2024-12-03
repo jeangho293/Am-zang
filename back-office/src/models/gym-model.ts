@@ -4,4 +4,6 @@ export class Gym {
   branchOffice!: string;
 
   address!: string;
+
+  createdOn!: string;
 }

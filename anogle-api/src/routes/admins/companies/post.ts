@@ -3,6 +3,7 @@ import type { DddContext } from '@libs/ddd';
 import * as joi from 'joi';
 import type { Role } from '../../../services/role/domain/model';
 import { CompanyService } from '../../../services/company/application/service';
+import { authHandler } from '../../../middlewares';
 
 const router = Router();
 const bodySchema = joi
@@ -14,7 +15,7 @@ const bodySchema = joi
   })
   .required();
 
-router.post('/admins/companies', async (req, res, next) => {
+router.post('/admins/companies', authHandler, async (req, res, next) => {
   try {
     // 1. Get body, params, querystring
     const body = await bodySchema.validateAsync(req.body);
