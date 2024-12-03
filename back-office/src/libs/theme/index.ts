@@ -35,5 +35,12 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          maxWidth: 'none',
+        },
+      },
+    },
   },
 });
