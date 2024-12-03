@@ -9,8 +9,8 @@ export class UserService extends DddService {
     super();
   }
 
-  async list() {
-    const users = await this.userRepository.satisfyElementFrom(new FilteredUserSpec({}));
+  async list({ email }: { email?: string }) {
+    const users = await this.userRepository.satisfyElementFrom(new FilteredUserSpec({ email }));
     return users.map((user) => user.toInstance());
   }
 
