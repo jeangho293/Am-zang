@@ -2,12 +2,17 @@ import { Inject, Service } from 'typedi';
 import { DddService, Transactional } from '@libs/ddd';
 import { CompanyRepository } from '../infrastructure/repository';
 import type { Role } from '../../role/domain/model';
-import { CreatableCompanySpec } from '../domain/specs';
+import { CreatableCompanySpec, FilteredCompanySpec } from '../domain/specs';
 
 @Service()
 export class CompanyService extends DddService {
   constructor(@Inject() private companyRepository: CompanyRepository) {
     super();
+  }
+
+  @Transactional()
+  async list() {
+    return this.companyRepository.satisfyElementFrom(new FilteredCompanySpec({}, {}));
   }
 
   @Transactional()

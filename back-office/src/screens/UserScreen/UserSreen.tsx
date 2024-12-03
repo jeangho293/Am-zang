@@ -55,7 +55,7 @@ function UserScreen() {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Stack spacing={4}>
+    <Stack>
       <ListViewHeader
         title="User"
         searchProps={{

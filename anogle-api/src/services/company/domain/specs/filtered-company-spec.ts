@@ -15,7 +15,7 @@ export class FilteredCompanySpec extends CompanySpec {
   private phoneNumber?: string;
 
   constructor(
-    { role }: { role: Role },
+    { role }: { role?: Role },
     {
       id,
       name,

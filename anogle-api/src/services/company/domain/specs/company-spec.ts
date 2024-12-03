@@ -4,9 +4,9 @@ import type { CompanyRepository } from '../../infrastructure/repository';
 import type { Company } from '../model';
 
 export abstract class CompanySpec {
-  private role: Role;
+  private role?: Role;
 
-  constructor(role: Role) {
+  constructor(role?: Role) {
     this.role = role;
   }
 
@@ -15,7 +15,7 @@ export abstract class CompanySpec {
   abstract satisfyCountFrom(companyRepository: CompanyRepository): Promise<number>;
 
   public isAdmin() {
-    if (this.role.role !== 'admin') {
+    if (this.role && this.role.role !== 'admin') {
       throw unauthorized(`You do not have permission for that service.`);
     }
   }

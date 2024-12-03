@@ -1,4 +1,8 @@
-import { QueryClient, useQuery as useReactQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useQuery as useReactQuery,
+  useMutation as useReactMutation,
+} from '@tanstack/react-query';
 
 export const queryClient = new QueryClient();
 export const queryKeyMap = new Map();
@@ -15,4 +19,34 @@ export const useQuery = <T extends Record<string, any>, R>(
   });
 
   return { loading, ...result };
+};
+
+export const useMutation = <T extends Record<string, any>, R>(
+  mutationFn: (args: T) => Promise<R>,
+  options?: {
+    onSuccess?: (data: R) => void;
+    onError?: (err: Error) => void;
+  }
+): [(options: { variables: T }) => Promise<R>, { loading: boolean }] => {
+  const { mutateAsync, isPending: loading } = useReactMutation({
+    mutationKey: [...queryKeyMap.get(mutationFn)],
+    mutationFn: mutationFn,
+    onSuccess: (result) => {
+      if (queryKeyMap.get(mutationFn)) {
+        queryClient.invalidateQueries({
+          queryKey: [...queryKeyMap.get(mutationFn)],
+          exact: false,
+        });
+      }
+      options?.onSuccess?.(result);
+    },
+    onError: options?.onError,
+  });
+
+  return [
+    (options: { variables: T }) => {
+      return mutateAsync(options.variables, {});
+    },
+    { loading },
+  ];
 };
