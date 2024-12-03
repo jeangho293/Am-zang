@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useGoogleSignIn, useUser } from '../../../libs/auth';
 import { CircularProgress } from '@mui/material';
+import queryString from 'query-string';
 
 function GoogleSignInCallbackScreen() {
   // 1. destructure props
@@ -16,10 +17,10 @@ function GoogleSignInCallbackScreen() {
   // 6. calculate values
   // 7. effect hooks
   useEffect(() => {
-    const accessToken = hash.split('&')[0].split('=')[1];
+    const { access_token } = queryString.parse(hash) as { access_token: string };
 
-    if (accessToken) {
-      signIn(accessToken);
+    if (access_token) {
+      signIn(access_token);
     }
   }, [hash]);
 
