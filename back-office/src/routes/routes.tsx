@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import {
+  CompanyScreen,
   DashboardScreen,
   GoogleSignInCallbackScreen,
   GoogleSignInScreen,
@@ -54,6 +55,7 @@ function AppRouter() {
           <Route index element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardScreen />} />
           <Route path="/users" element={<UserScreen />} />
+          <Route path="/companies" element={<CompanyScreen />} />
         </Route>
         <Route element={<UnAuthorizedRoute />}>
           <Route path="/sign-in" element={<GoogleSignInScreen />} />
