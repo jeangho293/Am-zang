@@ -1,4 +1,5 @@
 export * from './AddCompanyDialog';
+export * from './AddGymDialog';
 export * from './AnogleLogo';
 export * from './DialogButton';
 export * from './DialogTitleGroup';

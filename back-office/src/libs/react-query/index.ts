@@ -33,9 +33,9 @@ export const useMutation = <T extends Record<string, any>, R>(
     mutationFn: mutationFn,
     onSuccess: (result) => {
       if (queryKeyMap.get(mutationFn)) {
-        queryClient.invalidateQueries({
+        queryClient.refetchQueries({
           queryKey: [...queryKeyMap.get(mutationFn)],
-          exact: false,
+          // exact: false,
         });
       }
       options?.onSuccess?.(result);

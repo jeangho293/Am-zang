@@ -3,7 +3,7 @@ import { companyRepository } from '@repositories';
 import { useMemo, useState, Fragment } from 'react';
 import { DataGrid, GridColDef, GridRow } from '@mui/x-data-grid';
 import { Stack, Button } from '@mui/material';
-import { AddCompanyDialog, DialogButton, ListViewHeader } from '@components';
+import { AddCompanyDialog, AddGymDialog, DialogButton, ListViewHeader } from '@components';
 import { Gym } from '@models';
 
 function CompanyScreen() {
@@ -124,32 +124,48 @@ function CompanyScreen() {
                             </Stack>
                             {index === gyms.length - 1 && (
                               <Stack css={{ justifyContent: 'center' }}>
-                                <Button
-                                  css={{
-                                    height: '28px',
-                                    width: '28px',
-                                    margin: '16px',
-                                  }}
+                                <DialogButton
+                                  render={({ onOpen }) => (
+                                    <Button
+                                      onClick={onOpen}
+                                      css={{
+                                        height: '28px',
+                                        width: '28px',
+                                        margin: '16px',
+                                      }}
+                                    >
+                                      +
+                                    </Button>
+                                  )}
                                 >
-                                  +
-                                </Button>
+                                  {({ onClose }) => (
+                                    <AddGymDialog companyId={props.row.id} onClose={onClose} />
+                                  )}
+                                </DialogButton>
                               </Stack>
                             )}
                           </Fragment>
                         );
                       })
                     ) : (
-                      <Stack css={{ justifyContent: 'center' }}>
-                        <Button
-                          css={{
-                            height: '28px',
-                            width: '28px',
-                            margin: '16px',
-                          }}
-                        >
-                          +
-                        </Button>
-                      </Stack>
+                      <DialogButton
+                        render={({ onOpen }) => (
+                          <Button
+                            onClick={onOpen}
+                            css={{
+                              height: '28px',
+                              width: '28px',
+                              margin: '16px',
+                            }}
+                          >
+                            +
+                          </Button>
+                        )}
+                      >
+                        {({ onClose }) => (
+                          <AddGymDialog companyId={props.row.id} onClose={onClose} />
+                        )}
+                      </DialogButton>
                     ))}
                 </>
               );
