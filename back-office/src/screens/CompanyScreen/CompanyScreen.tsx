@@ -5,6 +5,7 @@ import { DataGrid, GridColDef, GridRow } from '@mui/x-data-grid';
 import { Stack, Button } from '@mui/material';
 import { AddCompanyDialog, AddGymDialog, DialogButton, ListViewHeader } from '@components';
 import { Gym } from '@models';
+import DownArrowIcon from '@assets/down-arrow-icon.svg?react';
 
 function CompanyScreen() {
   // 1. destructure props
@@ -29,11 +30,21 @@ function CompanyScreen() {
         field: 'name',
         headerName: 'Name',
         width: 180,
-        renderCell: ({ value, row }) => (
-          <span>
-            {value} ({row.gyms.length})
-          </span>
-        ),
+        renderCell: ({ row, value }) => {
+          return (
+            <Stack direction="row" css={{ alignItems: 'center', justifyContent: 'space-between' }}>
+              <span>
+                {value} ({row.gyms.length})
+              </span>
+              <DownArrowIcon
+                css={{
+                  transform: expanded === row.id ? 'rotate(0deg)' : 'rotate(180deg)',
+                  transition: 'transform 0.3s ease',
+                }}
+              />
+            </Stack>
+          );
+        },
       },
       { field: 'branchOffice', headerName: 'Spot', width: 120 },
       { field: 'address', headerName: 'Address', width: 240 },
@@ -43,7 +54,7 @@ function CompanyScreen() {
         flex: 1,
       },
     ];
-  }, []);
+  }, [expanded]);
 
   // 7. effect hooks
   // 8. handlers
@@ -83,6 +94,7 @@ function CompanyScreen() {
                     visibleColumns={[props.visibleColumns[0]]}
                     isFirstVisible={true}
                     css={{
+                      'borderBottom': '0.5px solid #e0e0e0',
                       ':hover': {
                         cursor: 'pointer',
                       },
@@ -93,8 +105,14 @@ function CompanyScreen() {
                       gyms.map((gym, index) => {
                         return (
                           <Fragment key={index}>
-                            <Stack direction="row">
+                            <Stack
+                              direction="row"
+                              css={{
+                                borderBottom: '0.5px solid #e0e0e0',
+                              }}
+                            >
                               {props.visibleColumns.map((column, index) => {
+                                console.log(column);
                                 return (
                                   <Stack
                                     key={index}
@@ -113,6 +131,7 @@ function CompanyScreen() {
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           textAlign: column.align,
+                                          width: column.width,
                                         }}
                                       >
                                         {index !== 0 && gym[column.field as keyof Gym]}
