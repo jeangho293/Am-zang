@@ -1,8 +1,9 @@
 import { badRequest, notImplemented } from '@hapi/boom';
-import { GymRepository } from '../../infrastructure/repository';
+import type { GymRepository } from '../../infrastructure/repository';
 import { Gym } from '../model';
 import { GymSpec } from './gym-spec';
-import { Role } from '../../../role/domain/model';
+import type { Role } from '../../../role/domain/model';
+import type { Company } from '../../../company/domain/model';
 
 export class CreatableGymSpec extends GymSpec {
   private branchOffice!: string;
@@ -11,30 +12,36 @@ export class CreatableGymSpec extends GymSpec {
 
   private createdOn!: string;
 
+  private company!: Company;
+
   constructor(
     { role }: { role: Role },
     {
       branchOffice,
       address,
       createdOn,
-    }: { branchOffice: string; address: string; createdOn: string }
+      company,
+    }: { branchOffice: string; address: string; createdOn: string; company: Company }
   ) {
     super(role);
     this.branchOffice = branchOffice;
     this.address = address;
     this.createdOn = createdOn;
+    this.company = company;
   }
 
   async satisfyElementFrom(gymRepository: GymRepository): Promise<Gym[]> {
     this.isAdmin();
-    const [gym] = await gymRepository.find({ branchOffice: this.branchOffice });
+    const [gym] = await gymRepository.find({
+      branchOffice: this.branchOffice,
+      company: this.company,
+    });
 
     if (gym) {
-      throw badRequest(`${this.branchOffice} is already existed.`, {
-        message: `${this.branchOffice} is already existed.`,
+      throw badRequest(`${this.company.name}'s ${this.branchOffice} is already existed.`, {
+        message: `${this.company.name}'s ${this.branchOffice} is already existed.`,
       });
     }
-
     return [
       new Gym({
         branchOffice: this.branchOffice,

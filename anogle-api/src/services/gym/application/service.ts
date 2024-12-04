@@ -36,7 +36,7 @@ export class GymService extends DddService {
 
     if (company) {
       const [gym] = await this.gymRepository.satisfyElementFrom(
-        new CreatableGymSpec({ role }, { branchOffice, address, createdOn })
+        new CreatableGymSpec({ role }, { branchOffice, address, createdOn, company })
       );
       await this.gymRepository.save([gym]);
       company.addGym(gym);
