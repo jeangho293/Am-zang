@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Stack, TextField, Typography } from '@mui/material';
 import { KakaoSearchMap } from '@components';
 
 function GymAddScreen() {
@@ -11,7 +11,15 @@ function GymAddScreen() {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Stack>
+    <Stack
+      css={{ width: '100%', maxWidth: '720px', justifyContent: 'center', alignItems: 'center' }}
+    >
+      <Typography>암장 추가</Typography>
+
+      <TextField />
+      <TextField />
+      <TextField />
+      <TextField />
       <KakaoSearchMap css={{ width: '200px', height: '200px' }} />
     </Stack>
   );

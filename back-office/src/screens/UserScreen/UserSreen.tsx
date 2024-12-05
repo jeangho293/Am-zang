@@ -55,7 +55,7 @@ function UserScreen() {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Stack>
+    <Stack css={{ width: '100%' }}>
       <ListViewHeader
         title="User"
         searchProps={{

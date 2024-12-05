@@ -22,12 +22,12 @@ function AuthorizedRoute() {
   // 6. calculate values
   // 7. effect hooks
   // 8. handlers
-  출처: https: return !user ? (
+  return !user ? (
     <Navigate to="/sign-in" />
   ) : (
     <Stack css={{ height: '100%' }}>
       <Header />
-      <Stack css={{ padding: '16px', height: '100%' }}>
+      <Stack css={{ padding: '16px', height: '100%', alignItems: 'center' }}>
         <Outlet />
       </Stack>
     </Stack>

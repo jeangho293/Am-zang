@@ -17,10 +17,10 @@ function GoogleSignInCallbackScreen() {
   // 6. calculate values
   // 7. effect hooks
   useEffect(() => {
-    const { access_token } = queryString.parse(hash) as { access_token: string };
+    const { access_token: accessToken } = queryString.parse(hash) as { access_token: string };
 
-    if (access_token) {
-      signIn(access_token);
+    if (accessToken) {
+      signIn(accessToken);
     }
   }, [hash]);
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+
 function DashboardScreen() {
   // 1. destructure props
   // 2. lib hooks
@@ -29,9 +30,9 @@ function DashboardScreen() {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds();
-        let markers = [];
+        const markers = [];
 
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           // @ts-ignore
           markers.push({
             position: {

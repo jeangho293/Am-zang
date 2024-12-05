@@ -63,7 +63,7 @@ function CompanyScreen() {
   };
 
   return (
-    <Stack css={{ height: '100%' }}>
+    <Stack css={{ width: '100%', height: '100%' }}>
       <ListViewHeader
         title="Company"
         searchProps={{
@@ -92,7 +92,7 @@ function CompanyScreen() {
                   <GridRow
                     {...props}
                     visibleColumns={[props.visibleColumns[0]]}
-                    isFirstVisible={true}
+                    isFirstVisible
                     css={{
                       'borderBottom': '0.5px solid #e0e0e0',
                       ':hover': {
@@ -104,7 +104,7 @@ function CompanyScreen() {
                     (gyms.length ? (
                       gyms.map((gym, index) => {
                         return (
-                          <Fragment key={index}>
+                          <Fragment key={gym.id}>
                             <Stack
                               direction="row"
                               css={{
@@ -114,7 +114,7 @@ function CompanyScreen() {
                               {props.visibleColumns.map((column, index) => {
                                 return (
                                   <Stack
-                                    key={index}
+                                    key={column.field}
                                     css={{
                                       width: column.width,
                                       height: props.rowHeight,
@@ -122,20 +122,18 @@ function CompanyScreen() {
                                       flex: column.flex,
                                     }}
                                   >
-                                    {
-                                      <span
-                                        css={{
-                                          padding: '0 10px',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap',
-                                          textAlign: column.align,
-                                          width: column.width,
-                                        }}
-                                      >
-                                        {index !== 0 && gym[column.field as keyof Gym]}
-                                      </span>
-                                    }
+                                    <span
+                                      css={{
+                                        padding: '0 10px',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        textAlign: column.align,
+                                        width: column.width,
+                                      }}
+                                    >
+                                      {index !== 0 && gym[column.field as keyof Gym]}
+                                    </span>
                                   </Stack>
                                 );
                               })}
