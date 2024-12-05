@@ -112,7 +112,6 @@ function CompanyScreen() {
                               }}
                             >
                               {props.visibleColumns.map((column, index) => {
-                                console.log(column);
                                 return (
                                   <Stack
                                     key={index}

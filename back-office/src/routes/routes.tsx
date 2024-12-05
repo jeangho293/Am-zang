@@ -4,6 +4,7 @@ import {
   DashboardScreen,
   GoogleSignInCallbackScreen,
   GoogleSignInScreen,
+  GymAddScreen,
   UserScreen,
 } from '@screens';
 import { useUser } from '@libs';
@@ -21,7 +22,7 @@ function AuthorizedRoute() {
   // 6. calculate values
   // 7. effect hooks
   // 8. handlers
-  return !user ? (
+  출처: https: return !user ? (
     <Navigate to="/sign-in" />
   ) : (
     <Stack css={{ height: '100%' }}>
@@ -56,6 +57,7 @@ function AppRouter() {
           <Route path="/dashboard" element={<DashboardScreen />} />
           <Route path="/users" element={<UserScreen />} />
           <Route path="/companies" element={<CompanyScreen />} />
+          <Route path="/gyms" element={<GymAddScreen />} />
         </Route>
         <Route element={<UnAuthorizedRoute />}>
           <Route path="/sign-in" element={<GoogleSignInScreen />} />

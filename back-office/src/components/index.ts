@@ -4,5 +4,6 @@ export * from './AnogleLogo';
 export * from './DialogButton';
 export * from './DialogTitleGroup';
 export * from './Header';
+export * from './KakaoSearchMap';
 export * from './ListViewHeader';
 export * from './Navigate';

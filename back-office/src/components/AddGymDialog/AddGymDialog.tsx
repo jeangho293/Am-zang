@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@libs';
 import { gymRepository } from '@repositories';
 import { useSnackbar } from 'notistack';
+import { KakaoSearchMap } from '../KakaoSearchMap';
 
 function AddGymDialog(props: { companyId: number; onClose: () => void }) {
   // 1. destructure props
@@ -44,6 +45,7 @@ function AddGymDialog(props: { companyId: number; onClose: () => void }) {
         <Stack css={{ width: '480px' }}>
           <TextField {...register('branchOffice')} />
           <TextField {...register('address')} />
+          <KakaoSearchMap css={{ width: '200px', height: '200px' }} />
         </Stack>
       </DialogContent>
       <DialogActions>

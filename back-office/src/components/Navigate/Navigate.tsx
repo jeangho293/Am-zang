@@ -49,7 +49,8 @@ function Navigate(props: { className?: string }) {
     <Stack direction="row" spacing={2} className={className} css={{ alignItems: 'center' }}>
       <Button to="/dashboard">대시보드</Button>
       <Button to="/users">사용자</Button>
-      <Button to="/companies">암장</Button>
+      <Button to="/companies">법인</Button>
+      <Button to="/gyms">암장</Button>
     </Stack>
   );
 }

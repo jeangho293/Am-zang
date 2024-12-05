@@ -7,6 +7,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": "src",
+    "types": ["kakao.maps.d.ts"],
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
