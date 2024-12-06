@@ -9,6 +9,7 @@ import {
 } from '@middlewares';
 import * as cors from 'cors';
 import { eventStore } from '@libs/event-store';
+import * as multer from 'multer';
 import { globalRouter } from './routes';
 import { initDatasource } from './databases';
 
@@ -23,6 +24,7 @@ import { initDatasource } from './databases';
   app.use(requestLoggerHandler);
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  app.use(multer().single('file'));
   app.use(cors());
 
   app.use(globalRouter);

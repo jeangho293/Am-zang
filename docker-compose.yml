@@ -7,3 +7,15 @@ services:
     ports:
       - "3306:3306"
     restart: always
+  localstack:
+    image: "localstack/localstack"
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - AWS_ACCESS_KEY_ID=test # 내부에서 aws 커맨드 사용을 위해 지정 awslocal 을 사용하면 필요없음
+      - AWS_SECRET_ACCESS_KEY=test # 위와 동일
+      - AWS_DEFAULT_REGION=us-east-1 # 위와 동일
+    volumes:
+      - "./localstack-data:/var/lib/localstack" # 데이터 유지용
