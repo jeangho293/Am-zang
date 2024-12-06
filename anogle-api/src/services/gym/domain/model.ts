@@ -1,5 +1,4 @@
-import { Entity, Column, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { customAlphabet } from 'nanoid';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Company } from '../../company/domain/model';
 import { DddAggregate } from '../../../libs/ddd';
 
@@ -18,7 +17,19 @@ export class Gym extends DddAggregate<Gym> {
   branchOffice!: string;
 
   @Column()
+  phoneNumber!: string;
+
+  @Column()
   address!: string;
+
+  @Column()
+  managerId!: number;
+
+  @Column()
+  scale!: string;
+
+  @Column()
+  difficulty!: string;
 
   @Column()
   createdOn!: string;

@@ -28,8 +28,12 @@ export const httpClient = (() => {
     setAuthorization(accessToken: string) {
       authorization = accessToken;
     },
-    async post<T>(url: string, data: Record<string, any>): Promise<T> {
-      return instance.post(url, data);
+    async post<T>(
+      url: string,
+      data: Record<string, any>,
+      options?: { headers?: Record<string, any> }
+    ): Promise<T> {
+      return instance.post(url, data, options);
     },
     async get<T>(
       url: string,

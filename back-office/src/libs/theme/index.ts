@@ -24,7 +24,7 @@ export const theme = createTheme({
           paddingLeft: '8px',
         },
         input: {
-          padding: '8px',
+          padding: '4px 0',
         },
       },
     },
@@ -39,6 +39,17 @@ export const theme = createTheme({
       styleOverrides: {
         paper: {
           maxWidth: 'none',
+        },
+      },
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        shrink: true,
+      },
+      styleOverrides: {
+        root: {
+          top: '4px',
+          left: '2px',
         },
       },
     },

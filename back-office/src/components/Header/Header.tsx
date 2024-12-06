@@ -1,9 +1,9 @@
 import { Stack, Typography, IconButton, Tooltip, Menu, MenuItem } from '@mui/material';
 import { useSignOut, useUser } from '@libs';
 import LogoutIcon from '@assets/logout-icon.svg?react';
+import { useState } from 'react';
 import { Navigate } from '../Navigate';
 import { AnogleLogo } from '../AnogleLogo';
-import { useState } from 'react';
 
 function Header() {
   // 1. destructure props
@@ -56,8 +56,8 @@ function Header() {
               onClick={(e) => setAnchorEl(e.currentTarget)}
               css={{
                 'backgroundColor': 'rgba(0, 0, 0, 0.1)',
-                'width': '48px',
-                'height': '48px',
+                'width': '44px',
+                'height': '44px',
                 'padding': '0',
                 ':hover': {
                   transform: 'scale(1.05)',
@@ -66,8 +66,8 @@ function Header() {
             >
               <Stack
                 css={{
-                  width: '36px',
-                  height: '36px',
+                  width: '32px',
+                  height: '32px',
                   backgroundColor: 'rgba(82, 140, 0, 0.45)',
                   borderRadius: '50%',
                   justifyContent: 'center',
