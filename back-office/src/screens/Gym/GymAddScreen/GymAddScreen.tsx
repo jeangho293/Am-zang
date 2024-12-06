@@ -1,4 +1,13 @@
-import { Box, Button, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { KakaoSearchMap } from '@components';
 import { useQuery } from '@libs';
 import { companyRepository } from '@repositories';
@@ -19,10 +28,11 @@ function GymAddScreen() {
   const { data: companies, loading } = useQuery(companyRepository.list);
 
   // 5. form hooks
-  const { register, control, handleSubmit } = useForm({
+  const { register, control, handleSubmit, setValue } = useForm({
     mode: 'onChange',
     defaultValues: {
       companyId: '',
+      branchImageId: 0,
       branchOffice: '',
       phoneNumber: '',
       managerId: '',
@@ -84,7 +94,11 @@ function GymAddScreen() {
             {preview ? (
               <img src={preview} css={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
-              '+'
+              <Stack css={{ height: '100%', justifyContent: 'center' }}>
+                <Typography css={{ fontSize: '48px', textAlign: 'center', color: 'grey' }}>
+                  +
+                </Typography>
+              </Stack>
             )}
           </Box>
           <input
@@ -95,8 +109,8 @@ function GymAddScreen() {
               const file = e.target.files?.[0];
               if (file && file.type.startsWith('image')) {
                 setPreview(URL.createObjectURL(file));
-                console.log(file);
-                await upload(file);
+                const { id } = await upload(file);
+                setValue('branchImageId', id);
               }
             }}
             css={{ display: 'none' }}
