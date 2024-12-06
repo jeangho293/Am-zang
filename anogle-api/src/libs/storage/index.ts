@@ -13,19 +13,22 @@ export class StorageClient {
     if (!this._httpClient) {
       this._httpClient = axios.create({
         baseURL: 'http://localhost:4000',
+        headers: {
+          'x-request-id': this.context.txId,
+        },
       });
     }
 
     this._httpClient.interceptors.response.use((res) => {
-      return res.data;
+      return res.data.data;
     });
 
     return this._httpClient;
   }
 
   public api = {
-    upload: async (data: any) => {
-      return this.httpClient.post('/test', data);
+    upload: async (data: any): Promise<{ id: number }> => {
+      return this.httpClient.post('/images/upload', data);
     },
   };
 }
