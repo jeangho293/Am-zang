@@ -1,10 +1,12 @@
 import { Dialog, DialogActions, DialogContent, Stack, TextField, Button } from '@mui/material';
-import { DialogTitleGroup } from '../DialogTitleGroup';
 import CompanyIcon from '@assets/company-icon.svg?react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@libs';
 import { companyRepository } from '@repositories';
 import { useSnackbar } from 'notistack';
+import { DialogTitleGroup } from '../DialogTitleGroup';
+import { DialogButton } from '../DialogButton';
+import { SearchMapDialog } from '../SearchMapDialog';
 
 function AddCompanyDialog(props: { onClose: () => void }) {
   // 1. destructure props
@@ -41,9 +43,20 @@ function AddCompanyDialog(props: { onClose: () => void }) {
     <Dialog open>
       <DialogTitleGroup title="Company" icon={<CompanyIcon />} onClose={onClose} />
       <DialogContent>
-        <Stack css={{ width: '620px' }}>
+        <Stack spacing={2} css={{ width: '360px' }}>
           <TextField {...register('name')} placeholder="name" />
-          <TextField {...register('address')} placeholder="address" />
+          <Stack spacing={4} direction="row" css={{ justifyContent: 'space-between' }}>
+            <TextField {...register('address')} placeholder="address" css={{ width: '240px' }} />
+            <DialogButton
+              render={({ onOpen }) => (
+                <Button onClick={onOpen} css={{ height: '32px' }}>
+                  주소 찾기
+                </Button>
+              )}
+            >
+              {({ onClose }) => <SearchMapDialog onClose={onClose} />}
+            </DialogButton>
+          </Stack>
           <TextField {...register('email')} placeholder="email" />
           <TextField {...register('phoneNumber')} placeholder="phoneNumber" />
         </Stack>

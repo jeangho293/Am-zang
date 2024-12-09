@@ -7,3 +7,4 @@ export * from './Header';
 export * from './KakaoSearchMap';
 export * from './ListViewHeader';
 export * from './Navigate';
+export * from './SearchMapDialog';
