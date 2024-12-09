@@ -1,11 +1,12 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { Gym } from '../../gym/domain/model';
+import { Address } from '../../valueObject';
 
 type CompanyCreator = {
   name: string;
   email: string;
-  address: string;
+  address: Address;
   phoneNumber: string;
 };
 
@@ -20,8 +21,8 @@ export class Company extends DddAggregate<Company> {
   @Column()
   email!: string;
 
-  @Column()
-  address!: string;
+  @Column(() => Address, { prefix: false })
+  address!: Address;
 
   @Column()
   phoneNumber!: string;

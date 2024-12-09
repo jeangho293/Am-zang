@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { DddAggregate } from '@libs/ddd';
 import { Company } from '../../company/domain/model';
-import { DddAggregate } from '../../../libs/ddd';
 
 type Creator = {
   branchOffice: string;

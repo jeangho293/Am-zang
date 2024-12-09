@@ -3,5 +3,6 @@ module.exports = {
   rules: {
     'no-underscore-dangle': 'off',
     'no-param-reassign': 'off',
+    '@typescript-eslint/ban-types': 'off',
   },
 };

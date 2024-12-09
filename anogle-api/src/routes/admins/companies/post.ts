@@ -4,13 +4,21 @@ import * as joi from 'joi';
 import type { Role } from '../../../services/role/domain/model';
 import { CompanyService } from '../../../services/company/application/service';
 import { authHandler } from '../../../middlewares';
+import type { Address } from '../../../services/valueObject';
 
 const router = Router();
 const bodySchema = joi
-  .object<{ name: string; email: string; address: string; phoneNumber: string }>({
+  .object<{ name: string; email: string; address: Address; phoneNumber: string }>({
     name: joi.string().required(),
     email: joi.string().required(),
-    address: joi.string().required(),
+    address: joi
+      .object({
+        address1: joi.string().required(),
+        address2: joi.string().required(),
+        lat: joi.string().required(),
+        lng: joi.string().required(),
+      })
+      .required(),
     phoneNumber: joi.string().required(),
   })
   .required();
