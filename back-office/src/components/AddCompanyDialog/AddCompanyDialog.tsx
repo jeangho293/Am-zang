@@ -113,7 +113,7 @@ function AddCompanyDialog(props: { onClose: () => void }) {
                 name,
                 email,
                 address: {
-                  ...address,
+                  address: `${address.address1} ${address.address2}`,
                   lat: address.lat.toString(),
                   lng: address.lng.toString(),
                 },

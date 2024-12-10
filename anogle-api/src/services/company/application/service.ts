@@ -3,7 +3,7 @@ import { DddService, Transactional } from '@libs/ddd';
 import { CompanyRepository } from '../infrastructure/repository';
 import type { Role } from '../../role/domain/model';
 import { CreatableCompanySpec, FilteredCompanySpec } from '../domain/specs';
-import type { Address } from '../../valueObject';
+import type { Address } from '../../../types';
 
 @Service()
 export class CompanyService extends DddService {

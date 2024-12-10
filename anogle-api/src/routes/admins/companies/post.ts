@@ -4,7 +4,7 @@ import * as joi from 'joi';
 import type { Role } from '../../../services/role/domain/model';
 import { CompanyService } from '../../../services/company/application/service';
 import { authHandler } from '../../../middlewares';
-import type { Address } from '../../../services/valueObject';
+import type { Address } from '../../../types';
 
 const router = Router();
 const bodySchema = joi
@@ -13,8 +13,7 @@ const bodySchema = joi
     email: joi.string().required(),
     address: joi
       .object({
-        address1: joi.string().required(),
-        address2: joi.string().required(),
+        address: joi.string().required(),
         lat: joi.string().required(),
         lng: joi.string().required(),
       })

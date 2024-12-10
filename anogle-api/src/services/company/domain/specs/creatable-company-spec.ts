@@ -3,7 +3,7 @@ import type { CompanyRepository } from '../../infrastructure/repository';
 import { Company } from '../model';
 import { CompanySpec } from './company-spec';
 import type { Role } from '../../../role/domain/model';
-import type { Address } from '../../../valueObject';
+import type { Address } from '../../../../types';
 
 export class CreatableCompanySpec extends CompanySpec {
   private name!: string;

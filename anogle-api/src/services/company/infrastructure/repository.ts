@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { DddRepository } from '../../../libs/ddd';
 import { Company } from '../domain/model';
 import type { CompanySpec } from '../domain/specs';
+import type { Address } from '../../valueObject';
 
 @Service()
 export class CompanyRepository extends DddRepository<Company> {
@@ -25,7 +26,7 @@ export class CompanyRepository extends DddRepository<Company> {
     id?: number;
     name?: string;
     email?: string;
-    address?: string;
+    address?: Address;
     phoneNumber?: string;
   }) {
     return this.entityManager.find(this.entityClass, {
