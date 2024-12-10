@@ -1,6 +1,7 @@
 import { httpClient, queryKeyMap } from '@libs';
 import { CompanyModel } from '@models';
 import queryString from 'query-string';
+import type { Address } from '../types';
 
 export const companyRepository = {
   async add({
@@ -11,7 +12,7 @@ export const companyRepository = {
   }: {
     name: string;
     email: string;
-    address: string;
+    address: Address;
     phoneNumber: string;
   }) {
     return httpClient.post('/companies', { name, email, address, phoneNumber });

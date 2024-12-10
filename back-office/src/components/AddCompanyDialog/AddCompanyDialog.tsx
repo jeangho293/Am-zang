@@ -108,15 +108,18 @@ function AddCompanyDialog(props: { onClose: () => void }) {
       <DialogActions>
         <Button
           onClick={handleSubmit(async ({ name, address, email, phoneNumber }) => {
-            console.log(address);
-            // await add({
-            //   variables: {
-            //     name,
-            //     email,
-            //     address,
-            //     phoneNumber,
-            //   },
-            // });
+            await add({
+              variables: {
+                name,
+                email,
+                address: {
+                  ...address,
+                  lat: address.lat.toString(),
+                  lng: address.lng.toString(),
+                },
+                phoneNumber,
+              },
+            });
           })}
         >
           제출
