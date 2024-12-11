@@ -2,7 +2,6 @@ import { Service } from 'typedi';
 import { DddRepository } from '../../../libs/ddd';
 import { Company } from '../domain/model';
 import type { CompanySpec } from '../domain/specs';
-import type { Address } from '../../valueObject';
 
 @Service()
 export class CompanyRepository extends DddRepository<Company> {
@@ -21,12 +20,16 @@ export class CompanyRepository extends DddRepository<Company> {
     name,
     email,
     address,
+    lat,
+    lng,
     phoneNumber,
   }: {
     id?: number;
     name?: string;
     email?: string;
-    address?: Address;
+    address?: string;
+    lat?: string;
+    lng?: string;
     phoneNumber?: string;
   }) {
     return this.entityManager.find(this.entityClass, {
@@ -35,6 +38,8 @@ export class CompanyRepository extends DddRepository<Company> {
         name,
         email,
         address,
+        lat,
+        lng,
         phoneNumber,
       },
       relations: {
