@@ -1,13 +1,13 @@
 const host = process.env.MYSQL_HOST || '';
 const username = process.env.MYSQL_USERNAME || '';
 const password = process.env.MYSQL_PASSWORD || '';
-const databases = process.env.MYSQL_DATABASE || '';
+const database = process.env.MYSQL_DATABASE || '';
 
 const config = {
   host,
   username,
   password,
-  databases,
+  database,
 };
 
 Object.entries(config).forEach(([key, value]) => {

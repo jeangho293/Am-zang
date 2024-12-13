@@ -1,8 +1,9 @@
+import 'reflect-metadata';
 import * as express from 'express';
 import * as cors from 'cors';
+import { dependencyInjectorHandler, uuidHandler } from '@middlewares';
 import { initDatasource } from './databases/mysql';
 import { globalRouter } from './routes';
-import { uuidHandler } from './middlewares';
 
 (async () => {
   await initDatasource();
@@ -10,6 +11,7 @@ import { uuidHandler } from './middlewares';
   const app = express();
 
   app.use(uuidHandler);
+  app.use(dependencyInjectorHandler);
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
   app.use(cors());
