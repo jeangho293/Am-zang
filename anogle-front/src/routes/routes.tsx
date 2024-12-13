@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { DashboardScreen, SignInScreen } from '@screens';
 import { useUser } from '@libs';
+import { Stack } from '@mui/material';
 
 function AuthorizedRoute() {
   // 1. destructure props
@@ -13,7 +14,15 @@ function AuthorizedRoute() {
   // 6. calculate values
   // 7. effect hooks
   // 8. handlers
-  return !user ? <Navigate to="/sign-in" /> : <Outlet />;
+  return !user ? (
+    <Navigate to="/sign-in" />
+  ) : (
+    <Stack css={{ height: '100%' }}>
+      <Stack css={{ height: '100%' }}>
+        <Outlet />
+      </Stack>
+    </Stack>
+  );
 }
 
 function UnAuthorizedRoute() {
