@@ -8,8 +8,8 @@ import {
   useState,
 } from 'react';
 import { UserModel } from '@models';
-import { httpClient } from '../http-client';
 import { CircularProgress } from '@mui/material';
+import { httpClient } from '../http-client';
 
 const authClient = httpClient;
 
