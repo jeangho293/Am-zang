@@ -7,8 +7,10 @@ import {
   requestLoggerHandler,
   uuidHandler,
 } from '@middlewares';
+import * as gracefulShutdown from 'http-graceful-shutdown';
 import { initDatasource } from './databases/mysql';
 import { globalRouter } from './routes';
+import { eventStore } from './libs/event-store';
 
 (async () => {
   await initDatasource();
@@ -26,7 +28,14 @@ import { globalRouter } from './routes';
   app.use(globalRouter);
   app.use(errorLoggerHandler);
 
-  app.listen(3000, () => {
+  const server = app.listen(3000, async () => {
+    await eventStore.start();
     console.log('server is running on 3000.😎');
+  });
+
+  gracefulShutdown(server, {
+    finally: () => {
+      console.log(`bye!👋`);
+    },
   });
 })();
