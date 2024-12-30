@@ -1,1 +1,1 @@
-module.exports = require('eslint-config-anogle-back/prettier.config');
+module.exports = require("eslint-config-anogle-back/prettier.config");
