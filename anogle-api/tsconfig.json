@@ -1,28 +1,25 @@
 {
   "compilerOptions": {
-    "lib": ["ES2021"],
-    "target": "es2021",
-    "outDir": "dist",
-    "baseUrl": "src",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "resolveJsonModule": true,
+    "declaration": true,
     "removeComments": true,
-    "noErrorTruncation": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictPropertyInitialization": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "src",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@libs/*": ["libs/*"],
-      "@middlewares": ["middlewares"],
-      "@configs": ["configs"]
+      "@middlewares": ["middlewares"]
     }
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  }
 }
