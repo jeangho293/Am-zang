@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DDdRepository } from '@libs/ddd';
 import { User } from '../../../../common/domain/users/users.entity';
 
 @Injectable()
-export class AdminsUsersRepository {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+export class AdminsUsersRepository extends DDdRepository<User> {
+  entityClass = User;
 
   async find() {
-    return this.userRepository.find();
+    return this.entityManager.find(this.entityClass);
   }
 }
