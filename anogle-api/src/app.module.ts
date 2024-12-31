@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { UuidMiddleware } from '@middlewares';
+import { RequestLoggerMiddleware, UuidMiddleware } from '@middlewares';
 import { DatabaseModule } from './databases/databases.module';
 import { GlobalRouterModule } from './modules/global-router.module';
 
@@ -10,6 +10,6 @@ import { GlobalRouterModule } from './modules/global-router.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UuidMiddleware).forRoutes('*');
+    consumer.apply(UuidMiddleware, RequestLoggerMiddleware).forRoutes('*');
   }
 }
