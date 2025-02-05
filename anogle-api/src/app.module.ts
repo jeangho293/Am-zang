@@ -1,15 +1,10 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { RequestLoggerMiddleware, UuidMiddleware } from '@middlewares';
-import { DatabaseModule } from './databases/databases.module';
-import { GlobalRouterModule } from './modules/global-router.module';
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
-  imports: [DatabaseModule, GlobalRouterModule],
-  controllers: [],
-  providers: [],
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UuidMiddleware, RequestLoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

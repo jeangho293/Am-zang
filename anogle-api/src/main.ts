@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 
 (async () => {
   const app = await NestFactory.create(AppModule);
-  const server = await app.listen(3000, () => {
+
+  await app.listen(3000, () => {
     console.log(`server is running on 3000. 😎`);
   });
 })();
