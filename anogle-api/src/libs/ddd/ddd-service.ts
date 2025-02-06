@@ -3,5 +3,5 @@ import { EntityManager } from 'typeorm';
 
 export abstract class DddService {
   @InjectEntityManager()
-  protected entityManager: EntityManager;
+  entityManager: EntityManager;
 }

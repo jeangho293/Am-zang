@@ -2,7 +2,6 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UuidMiddleware } from '@middlewares';
 import { AsyncLocalStorage } from 'async_hooks';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from './databases/database.module';
 import { GlobalRouterModule } from './modules/global-router.module';
 
@@ -10,7 +9,6 @@ import { GlobalRouterModule } from './modules/global-router.module';
   imports: [DatabaseModule, GlobalRouterModule],
   controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: AsyncLocalStorage,
       useValue: new AsyncLocalStorage(),
