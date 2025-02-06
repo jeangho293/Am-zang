@@ -16,8 +16,8 @@ export abstract class DddAggregate {
 
   setTxId(txId: string) {
     if (!this.createdBy) {
-      this.createdBy = txId;
+      this.createdBy = '123';
     }
-    this.updatedBy = txId;
+    this.updatedBy = '123';
   }
 }
