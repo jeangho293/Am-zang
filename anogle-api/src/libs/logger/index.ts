@@ -1,5 +1,6 @@
 import { createLogger, transports, format } from 'winston';
 import type { Request, Response } from 'express';
+import { getTxId } from '../helpers/trace-id';
 
 type Color = 'red' | 'yellow';
 
@@ -45,7 +46,7 @@ export const logger = createLogger({
 });
 
 export function getContextLogger(req: Request, res: Response, err?: Error) {
-  const { txId } = res.locals;
+  const txId = getTxId();
   const { statusCode } = res;
   const { method, url } = req;
 

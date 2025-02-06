@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AdminsUsersService } from '../application/users.service';
 
 @Controller()
@@ -7,6 +7,10 @@ export class AdminsUsersController {
 
   @Get()
   async get() {
-    return this.adminsUsersService.list();
+    const data = await this.adminsUsersService.list();
+    return { data };
   }
+
+  @Post()
+  async post() {}
 }
