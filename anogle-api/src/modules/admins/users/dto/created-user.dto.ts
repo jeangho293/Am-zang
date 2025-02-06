@@ -6,4 +6,7 @@ export class CreatedUserDto {
 
   @IsString()
   password!: string;
+
+  @IsString()
+  confirmPassword!: string;
 }

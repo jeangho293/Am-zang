@@ -1,5 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import {
+  type CallHandler,
+  type ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { type Observable, tap } from 'rxjs';
 import type { Request, Response } from 'express';
 import { getContextLogger, logger } from '../logger';
 
@@ -19,7 +24,7 @@ export class LoggerInterceptor implements NestInterceptor {
         const duration = Date.now() - start;
 
         if (response.statusCode < 400) {
-          logger.child(getContextLogger(request, response)).info(`success!😏 - ${duration}ms`);
+          logger.child(getContextLogger(request, response)).info(`${duration}ms`);
         }
       })
     );

@@ -16,7 +16,15 @@ export class AdminsUsersService extends DddService {
   }
 
   @Transactional()
-  async create({ email, password }: { email: string; password: string }) {
+  async create({
+    email,
+    password,
+    confirmPassword,
+  }: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) {
     const [user] = await this.adminsUsersRepository.find({ email });
 
     if (user) {
@@ -25,7 +33,7 @@ export class AdminsUsersService extends DddService {
       });
     }
 
-    const newUser = new User({ email });
+    const newUser = User.of({ email, password, confirmPassword });
     await this.adminsUsersRepository.save([newUser]);
   }
 }

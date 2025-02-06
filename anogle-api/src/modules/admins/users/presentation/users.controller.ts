@@ -8,14 +8,22 @@ export class AdminsUsersController {
 
   @Get()
   async get() {
+    // 1. Get body, params, querystring
+    // 2. Get service result
     const data = await this.adminsUsersService.list();
+
+    // 3. Send response
     return { data };
   }
 
   @Post()
   async post(@Body() createdUserDto: CreatedUserDto) {
-    const { email, password } = createdUserDto;
+    // 1. Get body, params, querystring
+    const body = createdUserDto;
 
-    await this.adminsUsersService.create({ email, password });
+    // 2. Get service result
+    await this.adminsUsersService.create({ ...body });
+
+    // 3. Send response
   }
 }
