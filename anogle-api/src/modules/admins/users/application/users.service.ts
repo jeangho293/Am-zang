@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
-import { Transactional } from '@libs/decorators';
 import { AdminsUsersRepository } from '../infrastructure/users.repository';
 
 @Injectable()
@@ -9,7 +8,6 @@ export class AdminsUsersService extends DddService {
     super();
   }
 
-  @Transactional()
   async list() {
     const users = await this.adminsUsersRepository.find();
     return users;

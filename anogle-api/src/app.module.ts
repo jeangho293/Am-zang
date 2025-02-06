@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UuidMiddleware } from '@middlewares';
-import { AsyncLocalStorage } from 'async_hooks';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggerInterceptor } from '@libs/interceptors';
 import { AppController } from './app.controller';
 import { DatabaseModule } from './databases/database.module';
 import { GlobalRouterModule } from './modules/global-router.module';
@@ -10,11 +11,10 @@ import { GlobalRouterModule } from './modules/global-router.module';
   controllers: [AppController],
   providers: [
     {
-      provide: AsyncLocalStorage,
-      useValue: new AsyncLocalStorage(),
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerInterceptor,
     },
   ],
-  exports: [AsyncLocalStorage],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
