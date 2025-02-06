@@ -36,7 +36,7 @@ const customFormat = format.printf(
     if (error) {
       return `\n[level]: ${level}\n[service]: ${method}(${statusCode}) - ${url}\n[txId]: ${txId}\n[error] ${colorize(error.stack, 'red')}`;
     }
-    return `\n[level]: ${level}\n[service]: ${method}(${statusCode}) - ${url}\n[message]: ${message}\n[txId]: ${colorize(txId, 'yellow')}`;
+    return `\n[level]: ${level}\n[service]: ${method}(${statusCode}) - ${url}\n[txId]: ${colorize(txId, 'yellow')}`;
   }
 );
 

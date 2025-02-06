@@ -1,7 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UuidMiddleware } from '@middlewares';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggerInterceptor } from '@libs/interceptors';
+import { HttpExceptionFilter } from '@libs/filters/exceptions';
 import { AppController } from './app.controller';
 import { DatabaseModule } from './databases/database.module';
 import { GlobalRouterModule } from './modules/global-router.module';
@@ -13,6 +14,10 @@ import { GlobalRouterModule } from './modules/global-router.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })

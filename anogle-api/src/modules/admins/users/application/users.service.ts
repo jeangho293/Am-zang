@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
 import { AdminsUsersRepository } from '../infrastructure/users.repository';
 
