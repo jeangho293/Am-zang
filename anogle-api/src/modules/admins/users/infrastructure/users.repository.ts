@@ -7,7 +7,19 @@ import { getTxId } from '../../../../libs/helpers/trace-id';
 export class AdminsUsersRepository extends DddRepository<User> {
   entityClass = User;
 
-  async find() {
-    return this.entityManager.find(this.entityClass);
+  async find(args: { email?: string }) {
+    return this.entityManager.find(this.entityClass, {
+      where: {
+        email: args.email,
+      },
+    });
+  }
+
+  async count(args: { email?: string }) {
+    return this.entityManager.count(this.entityClass, {
+      where: {
+        email: args.email,
+      },
+    });
   }
 }
