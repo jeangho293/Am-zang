@@ -1,3 +1,3 @@
-import { User } from '../../common/domain/user/user.entity';
+import { User } from '../../modules/users/domain/users.entity';
 
 export default [User];

@@ -7,9 +7,9 @@ import { getTxId } from '../helpers/trace-id';
 export abstract class DddRepository<T extends DddAggregate> {
   constructor(@InjectDataSource() private readonly datasource: DataSource) {}
 
-  abstract entityClass: ObjectType<T>;
+  protected abstract entityClass: ObjectType<T>;
 
-  get entityManager(): EntityManager {
+  protected get entityManager(): EntityManager {
     // NOTE: Transaction이 걸려있으면 transactionManager를 사용하도록 한다. 그래야 트랜잭션 컨택스트에 포함됨.
     const entityManager =
       Reflect.getMetadata(TRANSACTION_MANAGER, Reflect) || this.datasource.manager;

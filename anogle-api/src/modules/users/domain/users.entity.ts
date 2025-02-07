@@ -1,8 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DddAggregate } from '@libs/ddd';
 import { createHash } from 'crypto';
-import { DddAggregate } from '@libs/ddd/ddd-aggregate';
+import { BadRequestException } from '@nestjs/common';
 
-type UserCreator = {
+type Creator = {
   email: string;
   password: string;
   confirmPassword: string;
@@ -19,19 +20,25 @@ export class User extends DddAggregate {
   @Column()
   password!: string;
 
-  private constructor(args: UserCreator) {
+  private constructor(args: Creator) {
     super();
     if (args) {
+      if (args.password !== args.confirmPassword) {
+        throw new BadRequestException('password and confirmPassword is different.', {
+          description: 'password and confirmPassword is different',
+        });
+      }
+
       this.email = args.email;
       this.password = this.hashPassword(args.password);
     }
   }
 
-  static of(args: UserCreator) {
+  static of(args: Creator) {
     return new User(args);
   }
 
   private hashPassword(plainPassword: string) {
-    return createHash('sha-256').update(plainPassword).digest('hex');
+    return createHash('SHA-256').update(plainPassword).digest('hex');
   }
 }

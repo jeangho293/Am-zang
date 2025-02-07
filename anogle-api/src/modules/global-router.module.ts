@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AdminsModule } from './admins/admins.module';
+import { AdminsModule } from './admins.module';
 
 @Module({
   imports: [AdminsModule],

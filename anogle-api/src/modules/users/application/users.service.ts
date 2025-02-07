@@ -1,18 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
 import { Transactional } from '@libs/decorators';
-import { AdminsUsersRepository } from '../infrastructure/users.repository';
-import { User } from '../../../../common/domain/user/user.entity';
+import { UsersRepository } from '../infrastructure/users.repository';
+import { User } from '../domain/users.entity';
 
 @Injectable()
-export class AdminsUsersService extends DddService {
-  constructor(private readonly adminsUsersRepository: AdminsUsersRepository) {
+export class UsersService extends DddService {
+  constructor(private readonly usersRepository: UsersRepository) {
     super();
   }
 
   async list() {
-    const users = await this.adminsUsersRepository.find({});
-    return users;
+    return this.usersRepository.find({});
   }
 
   @Transactional()
@@ -25,7 +24,13 @@ export class AdminsUsersService extends DddService {
     password: string;
     confirmPassword: string;
   }) {
-    const [user] = await this.adminsUsersRepository.find({ email });
+    const [user] = await this.usersRepository.find({ email });
+
+    if (password !== confirmPassword) {
+      throw new BadRequestException('password and confirmPassword is different.', {
+        description: 'password and confirmPassword is different.',
+      });
+    }
 
     if (user) {
       throw new BadRequestException(`${email} is already existed.`, {
@@ -34,6 +39,6 @@ export class AdminsUsersService extends DddService {
     }
 
     const newUser = User.of({ email, password, confirmPassword });
-    await this.adminsUsersRepository.save([newUser]);
+    await this.usersRepository.save([newUser]);
   }
 }

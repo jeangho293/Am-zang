@@ -1,17 +1,23 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { AdminsUsersModule } from './users/users.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    AdminsUsersModule,
+    UsersModule,
+    AuthModule,
     RouterModule.register([
       {
         path: 'admins',
         children: [
           {
             path: 'users',
-            module: AdminsUsersModule,
+            module: UsersModule,
+          },
+          {
+            path: 'auth',
+            module: AuthModule,
           },
         ],
       },
