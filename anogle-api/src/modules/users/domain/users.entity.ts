@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { createHash } from 'crypto';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 type Creator = {
   email: string;
@@ -40,5 +40,15 @@ export class User extends DddAggregate {
 
   private hashPassword(plainPassword: string) {
     return createHash('SHA-256').update(plainPassword).digest('hex');
+  }
+
+  comparePassword(plainPassword: string) {
+    const isSame = this.password === this.hashPassword(plainPassword);
+
+    if (!isSame) {
+      throw new UnauthorizedException('password is not correct,', {
+        description: 'email or password is not correct.',
+      });
+    }
   }
 }
