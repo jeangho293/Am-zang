@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
-import { Client, ClientKafka, ClientKafkaProxy, Transport } from '@nestjs/microservices';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from '../application/users.service';
 import { CreatedUserDto } from './dto';
 
@@ -16,7 +15,6 @@ export class AdminsUsersController {
   @Post()
   async post(@Body() createdUserDto: CreatedUserDto) {
     const body = createdUserDto;
-
     await this.usersService.create({ ...body });
   }
 }
