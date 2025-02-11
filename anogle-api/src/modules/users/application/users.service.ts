@@ -11,13 +11,7 @@ export class UsersService extends DddService {
   }
 
   async list() {
-    await this.kafkaService.produce('test', { data: 'hi..?' });
     return this.usersRepository.find({});
-  }
-
-  async test() {
-    console.log('이거 호출이 안되었는데..?');
-    await this.kafkaService.consume();
   }
 
   @Transactional()
