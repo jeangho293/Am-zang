@@ -17,4 +17,9 @@ export class AdminsUsersController {
     const body = createdUserDto;
     await this.usersService.create({ ...body });
   }
+
+  @Get('test')
+  async testGet() {
+    await this.usersService.test();
+  }
 }

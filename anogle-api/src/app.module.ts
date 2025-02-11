@@ -6,9 +6,10 @@ import { HttpExceptionFilter } from '@libs/filters/exceptions';
 import { AppController } from './app.controller';
 import { DatabaseModule } from './databases/database.module';
 import { GlobalRouterModule } from './modules/global-router.module';
+import { KafkaModule } from './libs/kafka/kafka.module';
 
 @Module({
-  imports: [DatabaseModule, GlobalRouterModule],
+  imports: [DatabaseModule, KafkaModule, GlobalRouterModule],
   controllers: [AppController],
   providers: [
     {
