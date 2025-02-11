@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Client, ClientKafka, ClientKafkaProxy, Transport } from '@nestjs/microservices';
 import { UsersService } from '../application/users.service';
 import { CreatedUserDto } from './dto';
 
