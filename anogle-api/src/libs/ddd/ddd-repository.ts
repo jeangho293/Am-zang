@@ -4,7 +4,7 @@ import { DddAggregate } from './ddd-aggregate';
 import { TRANSACTION_MANAGER } from '../decorators';
 import { getTxId } from '../helpers/trace-id';
 import { DddEvent } from './ddd-event';
-import { KafkaProducerService } from '../kafka/producer.module';
+import { KafkaProducerService } from '../kafka/producer.service';
 
 export abstract class DddRepository<T extends DddAggregate> {
   constructor(

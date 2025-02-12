@@ -7,7 +7,7 @@ import { AppController } from './app.controller';
 import { DatabaseModule } from './databases/database.module';
 import { GlobalRouterModule } from './modules/global-router.module';
 import { KafkaModule } from './libs/kafka/kafka.module';
-import { KafkaConsumerService } from './libs/kafka/consumer.module';
+import { KafkaConsumerService } from './libs/kafka/consumer.service';
 
 @Module({
   imports: [DatabaseModule, KafkaModule, GlobalRouterModule],

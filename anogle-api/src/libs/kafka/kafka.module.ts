@@ -1,7 +1,7 @@
 import { Global, Module, OnModuleInit } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
-import { KafkaProducerService } from './producer.module';
-import { KafkaConsumerService } from './consumer.module';
+import { KafkaProducerService } from './producer.service';
+import { KafkaConsumerService } from './consumer.service';
 
 @Global()
 @Module({
