@@ -1,12 +1,16 @@
-import { DataSource, EntityManager, ObjectType } from 'typeorm';
+import type { DataSource, EntityManager, ObjectType } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DddAggregate } from './ddd-aggregate';
 import { TRANSACTION_MANAGER } from '../decorators';
 import { getTxId } from '../helpers/trace-id';
 import { DddEvent } from './ddd-event';
+import { KafkaProducerService } from '../kafka/producer.module';
 
 export abstract class DddRepository<T extends DddAggregate> {
-  constructor(@InjectDataSource() private readonly datasource: DataSource) {}
+  constructor(
+    @InjectDataSource() private readonly datasource: DataSource,
+    private readonly kafkaProducer: KafkaProducerService
+  ) {}
 
   protected abstract entityClass: ObjectType<T>;
 
@@ -32,5 +36,6 @@ export abstract class DddRepository<T extends DddAggregate> {
     const eventsWithTxId = events.map((event) => event.withTxId(getTxId()));
 
     await this.entityManager.save(DddEvent, eventsWithTxId);
+    await this.kafkaProducer.send(eventsWithTxId);
   }
 }
