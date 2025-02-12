@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { createHash } from 'crypto';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { UserCreatedEvent } from './events';
 
 type Creator = {
   email: string;
@@ -31,6 +32,8 @@ export class User extends DddAggregate {
 
       this.email = args.email;
       this.password = this.hashPassword(args.password);
+
+      this.publishEvent(new UserCreatedEvent(this.email));
     }
   }
 

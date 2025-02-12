@@ -3,6 +3,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { DddAggregate } from './ddd-aggregate';
 import { TRANSACTION_MANAGER } from '../decorators';
 import { getTxId } from '../helpers/trace-id';
+import { DddEvent } from './ddd-event';
 
 export abstract class DddRepository<T extends DddAggregate> {
   constructor(@InjectDataSource() private readonly datasource: DataSource) {}
@@ -19,6 +20,17 @@ export abstract class DddRepository<T extends DddAggregate> {
 
   async save(entities: T[]) {
     entities.forEach((entity) => entity.setTxId(getTxId()));
+    await this.saveEntity(entities);
+    await this.saveEvents(entities.flatMap((entity) => entity.getPublishEvents()));
+  }
+
+  private async saveEntity(entities: T[]) {
     return this.entityManager.save(entities);
+  }
+
+  private async saveEvents(events: DddEvent[]) {
+    const eventsWithTxId = events.map((event) => event.withTxId(getTxId()));
+
+    await this.entityManager.save(DddEvent, eventsWithTxId);
   }
 }

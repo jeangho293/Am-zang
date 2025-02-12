@@ -12,4 +12,5 @@ export function registerEventHandler(
   if (enable) {
     handlers.push([eventClass, serviceClass, serviceMethod]);
   }
+  console.log(handlers);
 }
