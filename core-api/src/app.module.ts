@@ -1,10 +1,18 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { PingController } from './ping.controller';
+import { ConfigsModule } from '@configs';
+import { DatabasesModule } from '@databases';
+import { GlobalRouterModule } from './services/global-router.module';
+import { ContextMiddleware, UUIDMiddleware } from '@middlewares';
+import { AsyncContextModule } from '@libs/async-context';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [ConfigsModule, AsyncContextModule, DatabasesModule, GlobalRouterModule],
+  controllers: [PingController],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ContextMiddleware, UUIDMiddleware).forRoutes('*');
+  }
+}
