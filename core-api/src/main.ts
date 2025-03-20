@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigsService } from '@configs';
 
 (async () => {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   const configsService = app.get(ConfigsService);
   const port = configsService.get<string>('SERVER_PORT') ?? 3000;
