@@ -1,4 +1,4 @@
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import { useSignInGoogle } from '@libs/auth';
 
 export function SignInScreen() {

@@ -24,7 +24,16 @@ export class ConfigsService {
     return config;
   }
 
-  private checkUndefinedValue(config: object, type: string) {
+  get googleAuth() {
+    const config = {
+      clientId: this.configService.get<string>('GOOGLE_CLIENT_ID'),
+    };
+
+    this.checkUndefinedValue(config, 'google');
+    return config;
+  }
+
+  private checkUndefinedValue(config: string | object, type: string) {
     Object.entries(config).forEach(([key, value]) => {
       // NOTE: value가 의도적으로 0일 수 있으니 undefined를 직접 명시해준다.
       if (value === undefined) {

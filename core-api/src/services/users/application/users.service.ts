@@ -9,6 +9,6 @@ export class UsersService extends DddService {
   }
 
   async list() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({});
   }
 }

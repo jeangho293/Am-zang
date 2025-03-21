@@ -91,15 +91,15 @@ export function AuthProvider({
   return <UserContext.Provider value={userContext}>{children}</UserContext.Provider>;
 }
 
-export const useSignInGoogle: () => [(accessToken: string) => void, { loading: boolean }] = () => {
+export const useSignInGoogle: () => [(idToken: string) => void, { loading: boolean }] = () => {
   const context = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   return [
     useCallback(
-      (accessToken: string) => {
+      (idToken: string) => {
         setLoading(true);
-        loadToken(() => authClient.post('/auth/token', { accessToken }))
+        loadToken(() => authClient.post('/auth/token', { idToken }))
           .then(async () => context.setUser(await getSelf()))
           .catch((err) => console.log(err))
           .finally(() => setLoading(false));
