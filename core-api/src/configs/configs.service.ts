@@ -33,6 +33,15 @@ export class ConfigsService {
     return config;
   }
 
+  get jwt() {
+    const config = {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    };
+
+    this.checkUndefinedValue(config, 'jwt');
+    return config;
+  }
+
   private checkUndefinedValue(config: string | object, type: string) {
     Object.entries(config).forEach(([key, value]) => {
       // NOTE: value가 의도적으로 0일 수 있으니 undefined를 직접 명시해준다.

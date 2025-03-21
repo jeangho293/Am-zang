@@ -12,7 +12,7 @@ import { ConfigsService } from '@configs';
     JwtModule.registerAsync({
       inject: [ConfigsService],
       useFactory: (configsService: ConfigsService) => ({
-        secret: '1234',
+        secret: configsService.jwt.secret,
       }),
     }),
   ],

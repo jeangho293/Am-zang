@@ -4,6 +4,7 @@ import { AsyncLocalStorage } from 'async_hooks';
 export enum AsyncContextKey {
   TXID = 'txId',
   ENTITY_MANAGER = 'entityManager',
+  USER = 'user',
 }
 
 @Injectable()

@@ -1,15 +1,34 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { PingController } from './ping.controller';
-import { ConfigsModule } from '@configs';
+import { ConfigsModule, ConfigsService } from '@configs';
 import { DatabasesModule } from '@databases';
 import { GlobalRouterModule } from './services/global-router.module';
 import { ContextMiddleware, UUIDMiddleware } from '@middlewares';
 import { AsyncContextModule } from '@libs/async-context';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '@libs/guards/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [ConfigsModule, AsyncContextModule, DatabasesModule, GlobalRouterModule],
+  imports: [
+    ConfigsModule,
+    AsyncContextModule,
+    JwtModule.registerAsync({
+      inject: [ConfigsService],
+      useFactory: (configsService: ConfigsService) => ({
+        secret: configsService.jwt.secret,
+      }),
+    }),
+    DatabasesModule,
+    GlobalRouterModule,
+  ],
   controllers: [PingController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
