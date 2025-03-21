@@ -5,6 +5,7 @@ import { GoogleClient } from '@libs/google-client';
 import { FilteredUserSpec } from '../../users/domain/specs';
 import { User } from '../../users/domain/users.entity';
 import { JwtService } from '@nestjs/jwt';
+import { Transactional } from '@libs/decorators';
 
 @Injectable()
 export class AuthService extends DddService {
@@ -16,6 +17,7 @@ export class AuthService extends DddService {
     super();
   }
 
+  @Transactional()
   async signInWithGoogle({ idToken }: { idToken: string }) {
     const { email, sub } = await this.googleClient.verifyIdToken({ idToken });
 
@@ -24,7 +26,6 @@ export class AuthService extends DddService {
     let accessToken: string;
 
     if (!user) {
-      // TODO: google 로그인일때 비밀번호를 어떻게 할지는 추후에 생각하자.
       const newUser = User.of({
         email: email!,
         password: email + sub,

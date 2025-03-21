@@ -11,8 +11,8 @@ export abstract class DddRepository<T extends DddAggregate> {
 
   protected abstract entityClass: ObjectType<T>;
 
-  get getManager(): EntityManager {
-    return this.datasource.manager;
+  protected get getManager(): EntityManager {
+    return this.context.get(AsyncContextKey.ENTITY_MANAGER) || this.datasource.manager;
   }
 
   async save(entities: T[]) {
