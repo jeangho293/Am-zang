@@ -5,6 +5,7 @@ export enum AsyncContextKey {
   TXID = 'txId',
   ENTITY_MANAGER = 'entityManager',
   USER = 'user',
+  EVENT_STORE = 'eventStore',
 }
 
 @Injectable()

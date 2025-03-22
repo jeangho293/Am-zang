@@ -1,7 +1,8 @@
-import { DataSource, EntityManager, ObjectType } from 'typeorm';
+import { DataSource, type EntityManager, type ObjectType } from 'typeorm';
 import { DddAggregate } from './aggregate';
 import { AsyncContext, AsyncContextKey } from '../async-context';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { DddEvent } from './event';
 
 export abstract class DddRepository<T extends DddAggregate> {
   constructor(
@@ -16,9 +17,14 @@ export abstract class DddRepository<T extends DddAggregate> {
   }
 
   async save(entities: T[]) {
-    const txId = this.context.get<string>(AsyncContextKey.TXID);
-
-    entities.forEach((entity) => entity.setTxId(txId));
+    entities.forEach((entity) => entity.setTxId(this.context.get<string>(AsyncContextKey.TXID)));
     await this.getManager.save(entities);
+    await this.saveEvents(entities.flatMap((entity) => entity.getPublishedEvents()));
+  }
+
+  async saveEvents(events: DddEvent[]) {
+    events.forEach((event) => event.setTxId(this.context.get<string>(AsyncContextKey.TXID)));
+    this.context.set(AsyncContextKey.EVENT_STORE, events);
+    await this.getManager.save(DddEvent, events);
   }
 }

@@ -8,6 +8,7 @@ import { AsyncContextModule } from '@libs/async-context';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@libs/guards/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { EventStoreModule } from '@libs/event-store';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     DatabasesModule,
     GlobalRouterModule,
+    EventStoreModule,
   ],
   controllers: [PingController],
   providers: [
