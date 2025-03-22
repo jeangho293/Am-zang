@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
-import { EventHandler } from '@libs/decorators';
+import { EventHandler, Transactional } from '@libs/decorators';
 import { UserCreatedEvent } from '../../users/domain/events';
 import { Role } from '../domain/roles.entity';
 import { RolesRepository } from '../infrastructure/roles.repository';
@@ -11,6 +11,7 @@ export class RolesService extends DddService {
     super();
   }
 
+  @Transactional()
   @EventHandler(UserCreatedEvent)
   async onHandleUserCreatedEvent(event: UserCreatedEvent) {
     const { userId, roleType } = event;

@@ -10,8 +10,8 @@ type Creator = {
 
 @Entity()
 export class Role extends DddAggregate {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column()
   roleType!: RoleType;
