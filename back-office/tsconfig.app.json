@@ -28,7 +28,8 @@
     "paths": {
       "@screens": ["screens"],
       "@libs/*": ["libs/*"],
-      "@models": ["models"]
+      "@models": ["models"],
+      "@components": ["components"]
     }
   },
   "include": ["src"]
