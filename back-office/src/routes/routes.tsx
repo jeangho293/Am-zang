@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { SignInScreen } from '@screens';
+import { GymsScreen, SignInScreen } from '@screens';
 import { useUser } from '@libs/auth';
 import { Stack } from '@mui/material';
 import { Header } from '@components';
@@ -45,6 +45,7 @@ export function AppRouter() {
       <Routes>
         <Route element={<AuthorizedRoute />}>
           <Route path="/" element={<div>hi</div>} />
+          <Route path="/gyms" element={<GymsScreen />} />
         </Route>
 
         <Route element={<UnAuthorizedRoute />}>
