@@ -37,6 +37,7 @@ function MultiMenu(props: { name: string; items: { name: string; path: string }[
         {items.map(({ name, path }) => {
           return (
             <MenuItem
+              key={path}
               onClick={() => {
                 navigator(path);
                 handleClose();

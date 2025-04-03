@@ -1,8 +1,10 @@
 import { useQuery } from '@libs/react-query';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { gymRepository } from '@repositories';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Pagination } from '@components';
+import { Stack } from '@mui/material';
+import type { GymModel } from '@models';
 
 export function GymsScreen() {
   // 1. destructure props
@@ -16,16 +18,41 @@ export function GymsScreen() {
   // 5. form hooks
   // 6. calculate values
   const gymItems = gyms?.items ?? [];
-  const columns: GridColDef[] = [
-    { field: 'name', headerName: 'name', width: 160 },
-    { field: 'phoneNumber', headerName: 'phone number', width: 160 },
-  ];
+  const columns = useMemo((): GridColDef<GymModel>[] => {
+    return [
+      {
+        field: 'name',
+        headerName: 'name',
+        minWidth: 160,
+        flex: 1,
+      },
+      {
+        field: 'phoneNumber',
+        headerName: 'phone number',
+        minWidth: 160,
+        flex: 1,
+      },
+      {
+        field: 'address',
+        minWidth: 160,
+        flex: 1,
+        renderCell: ({ row }) => (
+          <span>
+            {row.address.address1} {row.address.address2}
+          </span>
+        ),
+      },
+    ];
+  }, []);
+
   // 7. effect hooks
   // 8. handlers
   return (
-    <div>
-      <DataGrid rows={gymItems} columns={columns} loading={loading} hideFooter={true} />
+    <Stack spacing={4} css={{ width: '100%', alignItems: 'center' }}>
+      <Stack css={{ width: '100%' }}>
+        <DataGrid rows={gymItems} columns={columns} loading={loading} hideFooter={true} />
+      </Stack>
       <Pagination page={page} limit={2} totalCount={gyms?.count} onChange={setPage} />
-    </div>
+    </Stack>
   );
 }
