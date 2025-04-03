@@ -12,9 +12,9 @@ export class AdminsUsersController {
 
   @Get()
   async getList() {
-    const data = await this.usersService.list();
+    const { users, count } = await this.usersService.list();
 
-    return data;
+    return { data: { items: users, count } };
   }
 
   @Get('self')

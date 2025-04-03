@@ -8,13 +8,13 @@ export abstract class DddAggregate {
   @CreateDateColumn()
   private readonly createdAt!: Date;
 
-  @Column()
+  @Column({ select: false })
   private createdBy!: string;
 
   @UpdateDateColumn()
   private readonly updatedAt!: Date;
 
-  @Column()
+  @Column({ select: false })
   private updatedBy!: string;
 
   setTxId(txId: string) {
