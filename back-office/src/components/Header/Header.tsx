@@ -1,10 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 import { ProfileIcon } from '../ProfileIcon';
+import { Navigation } from '../Navigation';
 
 export function Header() {
   // 1. destructure props
   // 2. lib hooks
-
   // 3. state hooks
   // 4. query hooks
   // 5. form hooks
@@ -24,8 +24,9 @@ export function Header() {
         }}
       >
         {/* 로고 및 상단메뉴 */}
-        <Stack direction="row">
+        <Stack direction="row" spacing="12px">
           <Typography css={{ fontSize: '24px', fontWeight: 500 }}>Am-Zang</Typography>
+          <Navigation />
         </Stack>
 
         {/* 프로필 영역 */}

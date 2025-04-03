@@ -4,7 +4,7 @@ import { queryKeyMap } from '../libs/react-query';
 
 export const usersRepository = {
   async list() {
-    return httpClient.get<UserModel[]>('/users');
+    return httpClient.get<{ items: UserModel[]; count: number }>('/users');
   },
 };
 
