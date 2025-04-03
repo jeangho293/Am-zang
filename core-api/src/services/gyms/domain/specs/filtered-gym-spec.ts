@@ -12,17 +12,29 @@ export class FilteredGymSpec implements GymSpec {
     this.name = name;
   }
 
-  async satisfyElementFrom(repository: GymsRepository): Promise<Gym[]> {
-    return repository.find({
-      id: this.id,
-      name: this.name,
-    });
+  async satisfyElementFrom(
+    repository: GymsRepository,
+    options?: { page?: number; limit?: number }
+  ): Promise<Gym[]> {
+    return repository.find(
+      {
+        id: this.id,
+        name: this.name,
+      },
+      options
+    );
   }
 
-  async satisfyCountFrom(repository: GymsRepository): Promise<number> {
-    return repository.count({
-      id: this.id,
-      name: this.name,
-    });
+  async satisfyCountFrom(
+    repository: GymsRepository,
+    options?: { page?: number; limit?: number }
+  ): Promise<number> {
+    return repository.count(
+      {
+        id: this.id,
+        name: this.name,
+      },
+      options
+    );
   }
 }

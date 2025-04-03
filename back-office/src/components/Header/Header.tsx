@@ -24,7 +24,7 @@ export function Header() {
         }}
       >
         {/* 로고 및 상단메뉴 */}
-        <Stack direction="row" spacing="12px">
+        <Stack direction="row" spacing={16}>
           <Typography css={{ fontSize: '24px', fontWeight: 500 }}>Am-Zang</Typography>
           <Navigation />
         </Stack>

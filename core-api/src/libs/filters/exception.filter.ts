@@ -3,10 +3,8 @@ import {
   Catch,
   HttpException,
   ExceptionFilter as NestExceptionFilter,
-  UnauthorizedException,
 } from '@nestjs/common';
-import type { Request, Response } from 'express';
-import { getContextLogger, logger } from '../logger';
+import type { Response } from 'express';
 
 @Catch()
 export class ExceptionFilter implements NestExceptionFilter {
@@ -16,13 +14,8 @@ export class ExceptionFilter implements NestExceptionFilter {
 
   catch(exception: HttpException | Error, host: ArgumentsHost) {
     const http = host.switchToHttp();
-    const req = http.getRequest<Request>();
     const res = http.getResponse<Response>();
 
-    // NOTE: AuthGuard에 의한 로깅.
-    if (exception instanceof UnauthorizedException) {
-      this.loggingUnAuthorization(req, res, exception);
-    }
     if (exception instanceof HttpException) {
       this.convertFromHttpException(exception);
     }
@@ -38,9 +31,5 @@ export class ExceptionFilter implements NestExceptionFilter {
   private convertFromHttpException(exception: HttpException) {
     this.statusCode = exception.getStatus();
     this.message = exception.cause as string;
-  }
-
-  private loggingUnAuthorization(req: Request, res: Response, exception: UnauthorizedException) {
-    logger.child(getContextLogger(req, res, exception)).error('Auth Error');
   }
 }

@@ -11,8 +11,15 @@ export function Navigation() {
   // 7. effect hooks
   // 8. handler
   return (
-    <Stack>
+    <Stack direction="row" spacing={4}>
       <SingleMenu name="USER" path="/users" />
+      <MultiMenu
+        name="GYM"
+        items={[
+          { name: 'list', path: '/gyms' },
+          { name: 'add', path: '/gyms/add' },
+        ]}
+      />
     </Stack>
   );
 }
