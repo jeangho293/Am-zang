@@ -8,7 +8,6 @@ export function GymsScreen() {
   // 1. destructure props
   // 2. lib hooks
   // 3. state hooks
-  // TODO: 페이지네이션 만들어놓자
   const [page, setPage] = useState(1);
 
   // 4. query hooks
