@@ -15,7 +15,7 @@ export class GymsService extends DddService {
   async list({ page, limit }: { page?: number; limit?: number }) {
     const [gyms, count] = await Promise.all([
       this.gymsRepository.satisfyElementFrom(new FilteredGymSpec({}), { page, limit }),
-      this.gymsRepository.satisfyCountFrom(new FilteredGymSpec({}), { page, limit }),
+      this.gymsRepository.satisfyCountFrom(new FilteredGymSpec({})),
     ]);
 
     return { gyms, count };
