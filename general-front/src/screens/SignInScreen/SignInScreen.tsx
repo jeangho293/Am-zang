@@ -15,6 +15,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSignInLocal } from '@libs/auth';
+import { Link } from 'react-router-dom';
 
 export function SignInScreen() {
   // 1. destructure props
@@ -101,9 +102,11 @@ export function SignInScreen() {
         </Button>
 
         <Stack css={{ alignItems: 'center', marginTop: '4px' }}>
-          <Typography css={{ fontSize: '12px' }}>회원이 아니신가요?</Typography>
+          <Typography css={{ fontSize: '12px', color: 'gray' }}>회원이 아니신가요?</Typography>
           {/* TODO: Link 및 회원가입 페이지 적용 */}
-          <Typography css={{ fontSize: '12px' }}>여기를 눌러 회원가입을 하세요!</Typography>
+          <Typography css={{ fontSize: '12px' }}>
+            <Link to="/sign-up">여기를 눌러 회원가입을 하세요!</Link>
+          </Typography>
         </Stack>
 
         <Divider css={{ width: '80%' }}>

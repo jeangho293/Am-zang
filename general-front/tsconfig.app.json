@@ -30,7 +30,8 @@
       "@screens": ["screens"],
       "@libs/*": ["libs/*"],
       "@models": ["models"],
-      "@repositories": ["repositories"]
+      "@repositories": ["repositories"],
+      "@routes": ["routes"]
     }
   },
   "include": ["src"]
