@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
 import { UsersRepository } from '../../users/infrastructure/users.repository';
 import { GoogleClient } from '@libs/google-client';
@@ -15,6 +15,21 @@ export class AuthService extends DddService {
     private readonly jwtService: JwtService
   ) {
     super();
+  }
+
+  async signInLocal({ email, password }: { email: string; password: string }) {
+    const [user] = await this.usersRepository.satisfyElementFrom(new FilteredUserSpec({ email }));
+
+    if (!user) {
+      throw new BadRequestException(`${email} is not existed user.`, {
+        cause: `아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.`,
+      });
+    }
+
+    user.validPassword(password);
+
+    const accessToken = this.jwtService.sign({ userId: user.id });
+    return { accessToken };
   }
 
   @Transactional()
@@ -34,7 +49,7 @@ export class AuthService extends DddService {
       await this.usersRepository.save([newUser]);
       accessToken = this.jwtService.sign({ userId: newUser.id });
     } else {
-      accessToken = this.jwtService.sign({ userID: user.id });
+      accessToken = this.jwtService.sign({ userId: user.id });
     }
 
     return { accessToken };

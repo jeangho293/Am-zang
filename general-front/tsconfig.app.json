@@ -29,7 +29,8 @@
       "@components": ["components"],
       "@screens": ["screens"],
       "@libs/*": ["libs/*"],
-      "@models": ["models"]
+      "@models": ["models"],
+      "@repositories": ["repositories"]
     }
   },
   "include": ["src"]

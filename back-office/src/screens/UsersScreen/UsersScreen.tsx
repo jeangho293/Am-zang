@@ -1,6 +1,8 @@
 import { useQuery } from '@libs/react-query';
 import { usersRepository } from '@repositories';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import { useMemo } from 'react';
+import type { UserModel } from '@models';
 
 export function UsersScreen() {
   // 1. destructure props
@@ -12,16 +14,24 @@ export function UsersScreen() {
   // 5. form hooks
   // 6. calculate values
   const userItem = data?.items || [];
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'id' },
-    { field: 'email', headerName: 'email' },
-  ];
+  const columns = useMemo((): GridColDef<UserModel>[] => {
+    return [
+      { field: 'email', headerName: 'email' },
+      { field: 'roleType', headerName: 'role' },
+    ];
+  }, []);
 
   // 7. effect hooks
   // 8. handlers
   return (
     <div>
-      <DataGrid rows={userItem} columns={columns} loading={loading} />
+      <DataGrid
+        rows={userItem}
+        columns={columns}
+        loading={loading}
+        rowHeight={36}
+        hideFooter={true}
+      />
     </div>
   );
 }

@@ -14,8 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { userRepository } from '../../repositories';
-import { useMutation } from '../../libs/react-query';
+import { useSignInLocal } from '@libs/auth';
 
 export function SignInScreen() {
   // 1. destructure props
@@ -24,7 +23,7 @@ export function SignInScreen() {
   const [isShow, setIsShow] = useState(false);
 
   // 4. query hooks
-  const [signIn, { loading }] = useMutation(userRepository.signIn);
+  const [signIn, { loading }] = useSignInLocal();
 
   // 5. form hooks
   const { register, handleSubmit } = useForm({
@@ -92,13 +91,9 @@ export function SignInScreen() {
           }}
         />
         <Button
-          onClick={handleSubmit(async ({ email, password }) => {
-            await signIn({
-              variables: {
-                email,
-                password,
-              },
-            });
+          loading={loading}
+          onClick={handleSubmit(({ email, password }) => {
+            signIn({ email, password });
           })}
           css={{ width: '80%' }}
         >

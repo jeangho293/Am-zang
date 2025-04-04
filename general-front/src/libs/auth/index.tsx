@@ -110,6 +110,28 @@ export const useSignInGoogle: () => [(idToken: string) => void, { loading: boole
   ];
 };
 
+export const useSignInLocal: () => [
+  ({ email, password }: { email: string; password: string }) => void,
+  { loading: boolean },
+] = () => {
+  const context = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
+  return [
+    useCallback(
+      ({ email, password }: { email: string; password: string }) => {
+        setLoading(true);
+        loadToken(() => authClient.post('/auth/token', { email, password }))
+          .then(async () => context.setUser(await getSelf()))
+          .catch((err) => console.log(err))
+          .finally(() => setLoading(false));
+      },
+      [context]
+    ),
+    { loading },
+  ];
+};
+
 export function useUser() {
   const context = useContext(UserContext);
   const user = context.getUser();

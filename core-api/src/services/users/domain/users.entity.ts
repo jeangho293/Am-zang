@@ -41,7 +41,7 @@ export class User extends DddAggregate {
   static of(args: Creator) {
     if (args.password !== args.confirmPassword) {
       throw new BadRequestException('password and confirm password are different.', {
-        cause: 'password and confirm password are different.',
+        cause: '비밀번호와 재확인 비밀번호가 서로 일치하지 않습니다.',
       });
     }
 
@@ -54,5 +54,13 @@ export class User extends DddAggregate {
 
   private hashPassword(password: string) {
     return createHash('SHA-256').update(password).digest('hex');
+  }
+
+  validPassword(plainPassword: string) {
+    if (this.password !== this.hashPassword(plainPassword)) {
+      throw new BadRequestException(`${this.email}'s password is not correct.`, {
+        cause: '이메일이 존재하지 않거나 비밀번호가 일치하지 않습니다.',
+      });
+    }
   }
 }
