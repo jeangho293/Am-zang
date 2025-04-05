@@ -10,10 +10,10 @@ export class Activity extends DddAggregate {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  activityDate?: string;
+  @Column({ nullable: true })
+  activityOn?: string;
 
-  @Column()
+  @Column({ nullable: true })
   gymId?: number;
 
   @Column()
@@ -26,8 +26,8 @@ export class Activity extends DddAggregate {
     }
   }
 
-  active({ activityDate, gymId }: { activityDate: string; gymId: number }) {
-    this.activityDate = activityDate;
+  active({ activityOn, gymId }: { activityOn: string; gymId: number }) {
+    this.activityOn = activityOn;
     this.gymId = gymId;
   }
 }
