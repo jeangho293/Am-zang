@@ -1,10 +1,23 @@
-import { httpClient } from '../libs/http-client';
-import { queryKeyMap } from '../libs/react-query';
+import { httpClient } from '@libs/http-client';
+import { queryKeyMap } from '@libs/react-query';
 
 export const userRepository = {
-  async signIn({ email, password }: { email: string; password: string }) {
-    return httpClient.post('/auth', { email, password });
+  async checkEmail({ email }: { email: string }) {
+    return httpClient.post<Promise<boolean>>('/users/check', { email });
+  },
+
+  async signUp({
+    email,
+    password,
+    confirmPassword,
+  }: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) {
+    return httpClient.post<Promise<void>>('/users/sign-up', { email, password, confirmPassword });
   },
 };
 
-queryKeyMap.set(userRepository.signIn, ['User']);
+queryKeyMap.set(userRepository.checkEmail, ['User']);
+queryKeyMap.set(userRepository.signUp, ['User']);

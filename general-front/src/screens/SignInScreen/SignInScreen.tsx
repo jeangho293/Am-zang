@@ -48,7 +48,6 @@ export function SignInScreen() {
     >
       <Stack
         spacing={3}
-        useFlexGap
         css={{
           width: '100%',
           maxWidth: '400px',
@@ -103,9 +102,10 @@ export function SignInScreen() {
 
         <Stack css={{ alignItems: 'center', marginTop: '4px' }}>
           <Typography css={{ fontSize: '12px', color: 'gray' }}>회원이 아니신가요?</Typography>
-          {/* TODO: Link 및 회원가입 페이지 적용 */}
           <Typography css={{ fontSize: '12px' }}>
-            <Link to="/sign-up">여기를 눌러 회원가입을 하세요!</Link>
+            <Link to="/sign-up" css={{ color: 'blue' }}>
+              여기를 눌러 회원가입을 하세요!
+            </Link>
           </Typography>
         </Stack>
 

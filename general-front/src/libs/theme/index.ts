@@ -35,9 +35,17 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: '#8F87F1',
-          color: '#FFFFFF',
+          'backgroundColor': '#8F87F1',
+          'color': '#FFFFFF',
+          '&.Mui-disabled': {
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          },
         },
+      },
+    },
+    MuiStack: {
+      defaultProps: {
+        useFlexGap: true,
       },
     },
   },
