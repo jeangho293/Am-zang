@@ -16,6 +16,7 @@ export class ActivitiesService extends DddService {
   async onHandleCreateUserEvent(event: UserCreatedEvent) {
     const { userId, roleType } = event;
 
+    // NOTE: admin 유저에게는 굳이 activity 를 만들필요가 없음.
     if (roleType === 'general') {
       const activity = new Activity({ userId });
 
