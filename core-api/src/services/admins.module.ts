@@ -5,17 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { GymsModule } from './gyms/gyms.module';
 import { ActivitiesModule } from './activities/activities.module';
-import { VerificationsModule } from './verifications/verifications.module';
 
 @Module({
-  imports: [
-    UsersModule,
-    AuthModule,
-    RolesModule,
-    GymsModule,
-    ActivitiesModule,
-    VerificationsModule,
-  ],
+  imports: [UsersModule, AuthModule, RolesModule, GymsModule, ActivitiesModule],
   controllers: adminsControllers,
 })
 export class AdminsModule {}
