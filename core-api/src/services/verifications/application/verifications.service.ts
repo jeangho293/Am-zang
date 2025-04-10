@@ -4,8 +4,7 @@ import { EventHandler, Transactional } from '@libs/decorators';
 import { UsersRepository } from '../../users/infrastructure/users.repository';
 import { FilteredUserSpec } from '../../users/domain/specs';
 import { VerificationsRepository } from '../infrastructure/verifications.repository';
-import { CreatableVerificationSpec, FilteredVerificationSpec } from '../domain/specs';
-import { Verification } from '../domain/verifications.entity';
+import { CreatableVerificationSpec } from '../domain/specs';
 import { CreateVerificationEvent } from '../domain/events';
 
 @Injectable()
@@ -17,7 +16,6 @@ export class VerificationsService extends DddService {
     super();
   }
 
-  // NOTE: 이거 다시 고쳐야하는데 expired와 관련해서 고쳐야함.
   @Transactional()
   async create({ email }: { email: string }) {
     const [user] = await this.usersRepository.satisfyElementFrom(new FilteredUserSpec({ email }));
