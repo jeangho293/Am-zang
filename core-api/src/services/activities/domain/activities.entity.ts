@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
-import { now } from '@libs/calendar-date';
+import { today } from '@libs/calendar-date';
 
 type Creator = {
   userId: string;
@@ -26,7 +26,7 @@ export class Activity extends DddAggregate {
   constructor(args: Creator) {
     super();
     if (args) {
-      this.createdOn = now();
+      this.createdOn = today();
       this.userId = args.userId;
     }
   }
