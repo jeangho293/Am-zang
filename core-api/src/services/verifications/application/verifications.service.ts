@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
-import { Transactional } from '@libs/decorators';
+import { EventHandler, Transactional } from '@libs/decorators';
 import { UsersRepository } from '../../users/infrastructure/users.repository';
 import { FilteredUserSpec } from '../../users/domain/specs';
 import { VerificationsRepository } from '../infrastructure/verifications.repository';
-import { FilteredVerificationSpec } from '../domain/specs';
+import { CreatableVerificationSpec, FilteredVerificationSpec } from '../domain/specs';
 import { Verification } from '../domain/verifications.entity';
+import { CreateVerificationEvent } from '../domain/events';
 
 @Injectable()
 export class VerificationsService extends DddService {
@@ -28,16 +29,16 @@ export class VerificationsService extends DddService {
     }
 
     const [verification] = await this.verificationsRepository.satisfyElementFrom(
-      new FilteredVerificationSpec({ byEmail: email })
+      new CreatableVerificationSpec({ byEmail: email })
     );
+    await this.verificationsRepository.save([verification]);
+  }
 
-    if (verification) {
-      throw new BadRequestException(`이미 인증번호를 전송했습니다.`, {
-        cause: '이미 인증번호를 전송했습니다.',
-      });
-    }
+  @EventHandler(CreateVerificationEvent)
+  @Transactional()
+  private async onHandleCreateVerificationEvent(event: CreateVerificationEvent) {
+    const { verificationId, byEmail, code } = event;
 
-    const newVerification = new Verification({ byEmail: email });
-    await this.verificationsRepository.save([newVerification]);
+    // TODO: NodeMailer를 사용해서 이메일 보내기.
   }
 }
