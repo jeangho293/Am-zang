@@ -4,7 +4,7 @@ import { EventHandler, Transactional } from '@libs/decorators';
 import { UsersRepository } from '../../users/infrastructure/users.repository';
 import { FilteredUserSpec } from '../../users/domain/specs';
 import { VerificationsRepository } from '../infrastructure/verifications.repository';
-import { CreatableVerificationSpec } from '../domain/specs';
+import { CreatableVerificationSpec, FilteredVerificationSpec } from '../domain/specs';
 import { CreateVerificationEvent } from '../domain/events';
 import { RecodeVerificationEvent } from '../domain/events/recode-verification-event';
 import { NodeMailer } from '@libs/node-mailer';
@@ -33,6 +33,22 @@ export class VerificationsService extends DddService {
       new CreatableVerificationSpec({ byEmail: email })
     );
 
+    await this.verificationsRepository.save([verification]);
+  }
+
+  @Transactional()
+  async verify({ email, code }: { email: string; code: string }) {
+    const [verification] = await this.verificationsRepository.satisfyElementFrom(
+      new FilteredVerificationSpec({ byEmail: email, code })
+    );
+
+    if (!verification) {
+      throw new BadRequestException(`검증에 일치하는 email, code가 존재하지 않습니다.`, {
+        cause: '인증번호가 일치하지 않습니다.',
+      });
+    }
+
+    verification.verify(code);
     await this.verificationsRepository.save([verification]);
   }
 

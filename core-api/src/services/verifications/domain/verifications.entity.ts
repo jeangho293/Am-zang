@@ -3,6 +3,7 @@ import { DddAggregate } from '@libs/ddd';
 import * as dayjs from 'dayjs';
 import { CreateVerificationEvent } from './events';
 import { RecodeVerificationEvent } from './events/recode-verification-event';
+import { BadRequestException } from '@nestjs/common';
 
 type Creator = {
   byEmail: string;
@@ -55,5 +56,21 @@ export class Verification extends DddAggregate {
     this.createCode();
 
     this.publishEvent(new RecodeVerificationEvent(this.byEmail, this.code, this.exp));
+  }
+
+  verify(code: string) {
+    if (this.isExpired()) {
+      throw new BadRequestException('인증번호의 유효기간이 만료되었습니다.', {
+        cause: '인증번호의 유효기간이 만료되었습니다.',
+      });
+    }
+
+    if (this.code !== code) {
+      throw new BadRequestException('인증번호가 일치하지 않습니다.', {
+        cause: '인증번호가 일치하지 않습니다.',
+      });
+    }
+
+    this.isVerified = true;
   }
 }
