@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from '../../../services/users/application/users.service';
-import { CheckDuplicatedEmail, SignUpDto } from './dto';
+import { SignUpDto } from './dto';
 import { Public } from '@libs/decorators';
 import { AsyncContext, AsyncContextKey } from '@libs/async-context';
 import { User } from '../../../services/users/domain/users.entity';
@@ -11,16 +11,6 @@ export class GeneralsUsersController {
     private readonly usersService: UsersService,
     private readonly context: AsyncContext
   ) {}
-
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @Post('/check')
-  async checkEmail(@Body() checkDuplicatedEmail: CheckDuplicatedEmail) {
-    const body = checkDuplicatedEmail;
-    const data = await this.usersService.checkDuplicatedEmail(body);
-
-    return { data };
-  }
 
   @Public()
   @Post('/sign-up')

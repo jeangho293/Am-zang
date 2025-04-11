@@ -58,7 +58,7 @@ export class Verification extends DddAggregate {
     this.publishEvent(new RecodeVerificationEvent(this.byEmail, this.code, this.exp));
   }
 
-  verify(code: string) {
+  validate(code: string) {
     if (this.isExpired()) {
       throw new BadRequestException('인증번호의 유효기간이 만료되었습니다.', {
         cause: '인증번호의 유효기간이 만료되었습니다.',
@@ -70,7 +70,9 @@ export class Verification extends DddAggregate {
         cause: '인증번호가 일치하지 않습니다.',
       });
     }
+  }
 
+  verified() {
     this.isVerified = true;
   }
 }

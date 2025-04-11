@@ -8,6 +8,7 @@ import { CreatableVerificationSpec, FilteredVerificationSpec } from '../domain/s
 import { CreateVerificationEvent } from '../domain/events';
 import { RecodeVerificationEvent } from '../domain/events/recode-verification-event';
 import { NodeMailer } from '@libs/node-mailer';
+import { UserCreatedEvent } from '../../users/domain/events';
 
 @Injectable()
 export class VerificationsService extends DddService {
@@ -36,22 +37,6 @@ export class VerificationsService extends DddService {
     await this.verificationsRepository.save([verification]);
   }
 
-  @Transactional()
-  async verify({ email, code }: { email: string; code: string }) {
-    const [verification] = await this.verificationsRepository.satisfyElementFrom(
-      new FilteredVerificationSpec({ byEmail: email, code })
-    );
-
-    if (!verification) {
-      throw new BadRequestException(`검증에 일치하는 email, code가 존재하지 않습니다.`, {
-        cause: '인증번호가 일치하지 않습니다.',
-      });
-    }
-
-    verification.verify(code);
-    await this.verificationsRepository.save([verification]);
-  }
-
   @EventHandler(CreateVerificationEvent, {
     description: 'verification이 생성되면 이메일을 전송한다.',
   })
@@ -60,8 +45,24 @@ export class VerificationsService extends DddService {
   })
   @Transactional()
   private async handleSendEmail(event: CreateVerificationEvent | RecodeVerificationEvent) {
-    const { code, byEmail, exp } = event;
+    const { code, byEmail } = event;
 
     await this.nodeMailer.sendEmail({ to: byEmail, text: code });
+  }
+
+  @EventHandler(UserCreatedEvent, { description: 'user가 생성되면 verification의 만료시킨다.' })
+  @Transactional()
+  private async handleUserCreatedEvent(event: UserCreatedEvent) {
+    const { email } = event;
+
+    const [verification] = await this.verificationsRepository.satisfyElementFrom(
+      new FilteredVerificationSpec({ byEmail: email })
+    );
+
+    // NOTE: 소셜 로그인으로 회원가입하지 않은 경우에만 verification이 존재하므로 분기처리.
+    if (verification) {
+      verification.verified();
+      await this.verificationsRepository.save([verification]);
+    }
   }
 }

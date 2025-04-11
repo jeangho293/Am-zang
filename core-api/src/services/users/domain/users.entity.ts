@@ -33,7 +33,7 @@ export class User extends DddAggregate {
       this.roleType = args.roleType;
       this.email = args.email;
       this.password = this.hashPassword(args.password);
-      this.publishEvent(new UserCreatedEvent(this.id, this.roleType));
+      this.publishEvent(new UserCreatedEvent(this.id, this.email, this.roleType));
     }
   }
 
