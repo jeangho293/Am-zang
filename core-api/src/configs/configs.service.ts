@@ -27,6 +27,8 @@ export class ConfigsService {
   get googleAuth() {
     const config = {
       clientId: this.configService.get<string>('GOOGLE_CLIENT_ID'),
+      email: this.configService.get<string>('GOOGLE_EMAIL'),
+      password: this.configService.get<string>('GOOGLE_EMAIL_PASSWORD'),
     };
 
     this.checkUndefinedValue(config, 'google');
