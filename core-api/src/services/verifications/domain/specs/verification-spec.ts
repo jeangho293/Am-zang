@@ -2,7 +2,13 @@ import type { VerificationsRepository } from '../../infrastructure/verifications
 import type { Verification } from '../verifications.entity';
 
 export abstract class VerificationSpec {
-  abstract satisfyElementFrom(repository: VerificationsRepository): Promise<Verification[]>;
+  abstract satisfyElementFrom(
+    repository: VerificationsRepository,
+    options?: { page?: number; limit?: number }
+  ): Promise<Verification[]>;
 
-  abstract satisfyCountFrom(repository: VerificationsRepository): Promise<number>;
+  abstract satisfyCountFrom(
+    repository: VerificationsRepository,
+    options?: { page?: number; limit?: number }
+  ): Promise<number>;
 }

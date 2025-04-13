@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
-import { EventHandler, Transactional } from '@libs/decorators';
+import { EventHandler, Roles, Transactional } from '@libs/decorators';
 import { UsersRepository } from '../../users/infrastructure/users.repository';
 import { FilteredUserSpec } from '../../users/domain/specs';
 import { VerificationsRepository } from '../infrastructure/verifications.repository';
@@ -20,6 +20,24 @@ export class VerificationsService extends DddService {
     super();
   }
 
+  @Roles(['admin'])
+  async list({ page, limit }: { page?: number; limit?: number }) {
+    const [verifications, count] = await Promise.all([
+      this.verificationsRepository.satisfyElementFrom(new FilteredVerificationSpec({}), {
+        page,
+        limit,
+      }),
+      this.verificationsRepository.satisfyCountFrom(new FilteredVerificationSpec({})),
+    ]);
+
+    return { verifications, count };
+  }
+
+  /**
+   *
+   * @param email 인증 번호를 받을 이메일
+   * @description 이메일 인증번호를 생성한다.
+   */
   @Transactional()
   async publishVerification({ email }: { email: string }) {
     const [user] = await this.usersRepository.satisfyElementFrom(new FilteredUserSpec({ email }));

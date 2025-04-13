@@ -7,7 +7,7 @@ export class AdminsGymsController {
   constructor(private readonly gymsService: GymsService) {}
 
   @Get()
-  async get(@Query() query) {
+  async get(@Query() query: GetGymsQueryDto) {
     const { limit, page } = query;
     const { gyms, count } = await this.gymsService.list({ limit, page });
 
