@@ -19,7 +19,7 @@ export class ExceptionFilter implements NestExceptionFilter {
     if (exception instanceof HttpException) {
       this.convertFromHttpException(exception);
     }
-
+    console.log(exception);
     return res.status(this.statusCode ?? 500).json({
       data: {
         message: this.message || 'An unexpected error occurred on the server.',

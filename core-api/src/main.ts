@@ -13,7 +13,9 @@ import { ExceptionFilter } from '@libs/filters';
 
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalFilters(new ExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true })
+  );
 
   await app.listen(port, () => console.log(`server is running on ${port}.`));
 })();
